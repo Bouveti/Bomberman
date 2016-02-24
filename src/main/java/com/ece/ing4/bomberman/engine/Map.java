@@ -1,9 +1,7 @@
 package com.ece.ing4.bomberman.engine;
 
-import javax.swing.text.TabableView;
-
 public class Map {
-
+	//Must be an odd number for Width and Height (example 9 / 9)
 	private char table[][];
 	private int width;
 	private int height;

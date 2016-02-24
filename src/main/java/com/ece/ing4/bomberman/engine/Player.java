@@ -6,6 +6,8 @@ public class Player {
 
 	private String name;
 	private int score;
+	private int id;
+	public static int nbJoueurs = 0;
 	
 	private int maxBomb;
 	ArrayList<Bomb> bombLaid;
@@ -20,6 +22,7 @@ public class Player {
 
 	public Player(String name, int x, int y) {
 		super();
+		this.id =++this.nbJoueurs;
 		this.name = name;
 		this.x = x;
 		this.y = y;
@@ -31,6 +34,10 @@ public class Player {
 		this.blast = 1;
 		this.speed = 1;
 		this.countMax = 1;
+	}
+	
+	public Player(String name) {
+		this(name, 0,0);
 	}
 
 	public String getName() {
