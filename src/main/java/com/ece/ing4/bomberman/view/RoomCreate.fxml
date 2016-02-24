@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ece.ing4.bomberman.controller.LauncherController">
+  
+   <children>
+      <MenuBar layoutX="-108.0" layoutY="-147.0" prefHeight="35.0" prefWidth="800.0" AnchorPane.bottomAnchor="565.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ImageView fitHeight="563.0" fitWidth="797.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="34.0" layoutY="63.0" prefHeight="16.0" prefWidth="106.0" text="Joueurs">
+         <font>
+            <Font size="22.0" />
+         </font></Label>
+      <ListView fx:id="playerList" layoutX="34.0" layoutY="100.0" prefHeight="466.0" prefWidth="306.0" />
+      <Label layoutX="399.0" layoutY="106.0" prefHeight="16.0" prefWidth="45.0" text="IP :">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="399.0" layoutY="139.0" prefHeight="28.0" prefWidth="100.0" text="PORT :">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="ipAddress" layoutX="525.0" layoutY="106.0" text="ipaddress">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="524.0" layoutY="139.0" text="port">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="nbJoueurs" layoutX="285.0" layoutY="63.0" prefHeight="28.0" prefWidth="55.0" text="Label">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button onAction="#launchGame" layoutX="591.0" layoutY="502.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="132.0" text="JOUER" />
+      <RadioButton fx:id="mapSmallRadio" layoutX="554.0" layoutY="236.0" mnemonicParsing="false" text="Small">
+         <toggleGroup>
+            <ToggleGroup fx:id="mapSize" />
+         </toggleGroup>
+         <font>
+            <Font size="17.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="mapMediumRadio" layoutX="554.0" layoutY="269.0" mnemonicParsing="false" selected="true" text="Medium" toggleGroup="$mapSize">
+         <font>
+            <Font size="17.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="mapLargeRadio" layoutX="554.0" layoutY="303.0" mnemonicParsing="false" text="Large" toggleGroup="$mapSize">
+         <font>
+            <Font size="17.0" />
+         </font></RadioButton>
+      <Label layoutX="399.0" layoutY="235.0" prefHeight="27.0" prefWidth="122.0" text="Taille carte :">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Button fx:id="cancelGame" onAction="#cancelGame" layoutX="408.0" layoutY="501.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="132.0" text="ANNULER" />
+      
+   </children>
+</AnchorPane>
