@@ -1,6 +1,11 @@
 package com.ece.ing4.bomberman.controller;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.net.UnknownHostException;
+
 import com.ece.ing4.bomberman.engine.*;
 
 import javafx.collections.FXCollections;
@@ -20,23 +25,30 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class GameController {
 	//@FXML private ListView<String> myList;
 	//@FXML private TextField inputList;
 	private Player player1;
+	private static Socket socket;
 	private Map newMap ;
 	
 	@FXML private AnchorPane anchor;
 	@FXML private GridPane gPane;
 	
 	void initMap(Map observableList) throws Exception {
-		
 		for(int i=0;i<observableList.getHeight();i++) {
 			for(int j=0;j<observableList.getWidth();j++){
 				Label test = new Label();			
 				String s = ""+observableList.getCell(i, j);
-				
 				if(s.compareTo("w")==0) test.setStyle("-fx-background-color: black;");	
 				else if(s.compareTo("d")==0) test.setStyle("-fx-border-color:black;-fx-background-color: grey;");
 				else if(s.compareTo("s")==0) test.setStyle("-fx-background-color: white;");
@@ -45,9 +57,66 @@ public class GameController {
 				test.setMinWidth(35);
 				test.setText("");
 				gPane.add(test, i, j);
-				//anchor.getChildren().add(test);
 			}
-			
 		}
 	}
+	@FXML
+    private void keyPressed(KeyEvent evt) throws IOException {
+		String s = ""+evt.getCode();
+		System.out.println(evt.getCode());
+		char result = 0;
+		switch (s) {
+			case "W" : result = 'z';
+					break;
+			case "A" : result = 'q';
+			break;
+			case "S" : result = 's';
+			break;
+			case "D" : result = 'd';
+			break;
+			case "SPACE" : result = 'b';
+			break;
+			default : break;
+		}
+		try
+        {
+            String host = "localhost";
+            int port = 25000;
+            InetAddress address = InetAddress.getByName(host);
+            socket = new Socket(address, port);
+ 
+            //Send the message to the server
+            OutputStream os = socket.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+ 
+            String sendMessage = result + "\n";
+            bw.write(sendMessage);
+            bw.flush();
+            System.out.println(sendMessage);
+ 
+            //Get the return message from the server
+            InputStream is = socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String message = br.readLine();
+            System.out.print(message);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+        finally
+        {
+            //Closing the socket
+            try
+            {
+                socket.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }	
 }

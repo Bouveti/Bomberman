@@ -93,6 +93,7 @@ public class LauncherController {
 	    controller.initMap(this.newMap);
 	    	   
 	    Scene scene = new Scene(root);
+	    scene.getRoot().requestFocus();
       	stage.setScene(scene);
       	stage.show(); 
     }
