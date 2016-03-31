@@ -63,21 +63,28 @@ public class GameController {
 	@FXML
     private void keyPressed(KeyEvent evt) throws IOException {
 		String s = ""+evt.getCode();
-		System.out.println(evt.getCode());
 		char result = 0;
 		switch (s) {
 			case "W" : result = 'z';
-					break;
+				sendCmd(result);
+				break;
 			case "A" : result = 'q';
-			break;
+				sendCmd(result);
+				break;
 			case "S" : result = 's';
-			break;
+				sendCmd(result);
+				break;
 			case "D" : result = 'd';
-			break;
+				sendCmd(result);
+				break;
 			case "SPACE" : result = 'b';
-			break;
+				sendCmd(result);
+				break;
 			default : break;
 		}
+	}
+		
+	private void sendCmd(char result) {
 		try
         {
             String host = "localhost";
@@ -118,5 +125,7 @@ public class GameController {
                 e.printStackTrace();
             }
         }
-    }	
-}
+    }
+		
+	}	
+
