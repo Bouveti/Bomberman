@@ -1,5 +1,8 @@
 package com.ece.ing4.bomberman.engine;
-public class Map {
+
+import java.io.Serializable;
+
+public class Map implements Serializable{
 	//Must be an odd number for Width and Height (example 9 / 9)
 	private char table[][];
 	private int width;

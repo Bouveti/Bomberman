@@ -11,7 +11,7 @@ import java.net.Socket;
  
 public class Server
 {
- 
+
     private static Socket socket;
  
     public static void main(String[] args)

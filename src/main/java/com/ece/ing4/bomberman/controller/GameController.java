@@ -49,6 +49,7 @@ public class GameController {
 	
 	void initMap(Game newGame) throws Exception {
 		this.theGame = newGame;
+		System.out.println(newGame);
 		Map myMap = theGame.getMap();
 		for(int i=0;i<myMap.getHeight();i++) {
 			for(int j=0;j<myMap.getWidth();j++){

@@ -28,6 +28,7 @@ public class LauncherController {
 	private Player player1;
 	private Map newMap ;
 	private Game newGame;
+	private ThreadServer server;
 	
 	@FXML private TextField playerName;
 	@FXML private Label playerHint;
@@ -44,7 +45,11 @@ public class LauncherController {
 	
 	private boolean createPlayer() {
 		if(!playerName.getText().contentEquals("")) {
+			
 			this.player1 = new Player(playerName.getText());
+			this.newGame = new Game();
+		    this.newGame.connect(player1.getName());
+		    System.out.println(player1);
 			return true;
 			
 		} else {
@@ -60,20 +65,26 @@ public class LauncherController {
 		    Stage stage; 
 		    Parent root;
 		    FXMLLoader fxmlLoader;
+		    this.playerList = new ListView<String>();
 		    if(event.getSource()==createGame){  
 		    	 stage = (Stage) createGame.getScene().getWindow();
 		         //root = FXMLLoader.load(getClass().getResource("../view/RoomCreate.fxml"));
 		         fxmlLoader = new FXMLLoader(getClass().getResource("../view/RoomCreate.fxml"));
 		         root = (Parent)fxmlLoader.load();    
 		         LauncherController controller = fxmlLoader.<LauncherController>getController();
-			     controller.initData(FXCollections.observableArrayList(this.player1.getName()));
+			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame);
+			     new Thread(new ThreadServer(newGame,this.playerList, FXCollections.observableArrayList(this.player1.getName()))).start();
 		    }
 		    else{
 		    	 stage = (Stage) joinGame.getScene().getWindow();
 		         fxmlLoader = new FXMLLoader(getClass().getResource("../view/RoomJoin.fxml"));
-		         //root = FXMLLoader.load(getClass().getResource("../view/RoomJoin.fxml"));
 		         root = (Parent)fxmlLoader.load();    
+		         LauncherController controller = fxmlLoader.<LauncherController>getController();
+			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame);
+		         //root = FXMLLoader.load(getClass().getResource("../view/RoomJoin.fxml"));
+			     new Thread(new ThreadClient(player1.getName())).start();
 		    }
+		     
 		    Scene scene = new Scene(root);
 		    stage.setScene(scene);
 		    stage.show();
@@ -101,15 +112,17 @@ public class LauncherController {
     }
 	
 	private void defineMap() {
-		if(mapSmallRadio.isSelected()) this.newMap = new Map(9,9);
-		else if (mapMediumRadio.isSelected()) this.newMap = new Map(15,15);
-		else this.newMap = new Map(19,19);
+		System.out.println(this.playerList);
+		if(mapSmallRadio.isSelected()) this.newGame.setMap(1);
+		else if (mapMediumRadio.isSelected()) this.newGame.setMap(2);
+		else this.newGame.setMap(3);
 	}
 	
-	private void initData(ObservableList<String> observableList) throws Exception {
-		playerList.setItems(observableList);
-		nbJoueurs.setText(playerList.getItems().size()+" / 4");
-		ipAddress.setText(InetAddress.getLocalHost().getHostAddress());
+	private void initData(ObservableList<String> observableList, Game ng) throws Exception {
+		this.newGame = ng;
+		this.playerList.setItems(observableList);
+		this.nbJoueurs.setText(playerList.getItems().size()+" / 4");
+		this.ipAddress.setText(InetAddress.getLocalHost().getHostAddress());
 	}
 	
 	

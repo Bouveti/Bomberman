@@ -1,14 +1,19 @@
 package com.ece.ing4.bomberman.engine;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements Serializable{
 
 	private ArrayList<Player> playerList;
 	private Map map;
 	
-	public Game(int size){
+	public Game () {
+		this.playerList = new ArrayList<Player>();
+	}
+	
+	public void setMap(int size){
 		
 		int height = 0;
 		int width = 0;

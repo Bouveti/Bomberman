@@ -1,6 +1,8 @@
 package com.ece.ing4.bomberman.engine;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable{
 
 	private Character character;
 	private String name;
