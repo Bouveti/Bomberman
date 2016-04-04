@@ -1,17 +1,13 @@
 package com.ece.ing4.bomberman.engine;
 
 import java.util.ArrayList;
-
 public class Character {
-
+	
 	private String name;
 	private int score;
-	private int id;
-	public static int nbJoueurs = 0;
 	
 	private int maxBomb;
 	ArrayList<Bomb> bombLaid;
-
 	private int x;
 	private int y;
 	
@@ -19,10 +15,8 @@ public class Character {
 	private int life;
 	private int blast;
 	private int countMax;
-
 	public Character(String name, int x, int y) {
 		super();
-		this.id =++this.nbJoueurs;
 		this.name = name;
 		this.x = x;
 		this.y = y;
@@ -35,72 +29,52 @@ public class Character {
 		this.speed = 1;
 		this.countMax = 1;
 	}
-	
-	public Character(String name) {
-		this(name, 0,0);
-	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public int getScore() {
 		return score;
 	}
-
 	public void setScore(int score) {
 		this.score = score;
 	}
-
 	public int getMaxBomb() {
 		return maxBomb;
 	}
-
 	public void setMaxBomb(int maxBomb) {
 		this.maxBomb = maxBomb;
 	}
-
 	public ArrayList<Bomb> getBombLaid() {
 		return bombLaid;
 	}
-
 	public void layBomb(int x, int y) {
 		this.bombLaid.add(new Bomb(x,y,this.countMax));
 	}
-
 	public int getX() {
 		return x;
 	}
-
 	public void setX(int x) {
 		this.x = x;
 	}
-
 	public int getY() {
 		return y;
 	}
-
 	public void setY(int y) {
 		this.y = y;
 	}
-
 	public int getSpeed() {
 		return speed;
 	}
-
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-
 	public int getLife() {
 		return life;
 	}
-
 	public void setLife(int life) {
 		this.life = life;
 	}
-} 
+}

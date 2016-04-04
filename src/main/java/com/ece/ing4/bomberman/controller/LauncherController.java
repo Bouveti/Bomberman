@@ -25,8 +25,9 @@ import javafx.stage.Stage;
 public class LauncherController {
 	//@FXML private ListView<String> myList;
 	//@FXML private TextField inputList;
-	private Character player1;
+	private Player player1;
 	private Map newMap ;
+	private Game newGame;
 	
 	@FXML private TextField playerName;
 	@FXML private Label playerHint;
@@ -43,7 +44,7 @@ public class LauncherController {
 	
 	private boolean createPlayer() {
 		if(!playerName.getText().contentEquals("")) {
-			this.player1 = new Character(playerName.getText());
+			this.player1 = new Player(playerName.getText());
 			return true;
 			
 		} else {
@@ -91,7 +92,7 @@ public class LauncherController {
 		fxmlLoader = new FXMLLoader(getClass().getResource("../view/Game.fxml"));
 		root = (Parent)fxmlLoader.load();
         GameController controller = fxmlLoader.<GameController>getController();
-	    controller.initMap(this.newMap);
+	    controller.initMap(this.newGame);
 	    	   
 	    Scene scene = new Scene(root);
 	    scene.getRoot().requestFocus();

@@ -1,5 +1,4 @@
 package com.ece.ing4.bomberman.engine;
-
 public class Map {
 	//Must be an odd number for Width and Height (example 9 / 9)
 	private char table[][];
@@ -53,6 +52,10 @@ public class Map {
 	
 	public char getCell(int x, int y){
 		return this.table[x][y];
+	}
+	
+	public void setCell(int x, int y, char val){
+		this.table[x][y] = val;
 	}
 	
 	public char[] getLine(int x){

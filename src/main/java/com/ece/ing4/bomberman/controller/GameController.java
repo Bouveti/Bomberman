@@ -36,20 +36,24 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 public class GameController {
+	
 	//@FXML private ListView<String> myList;
 	//@FXML private TextField inputList;
 	private Character player1;
 	private static Socket socket;
 	private Map newMap ;
+	private Game theGame;
 	
 	@FXML private AnchorPane anchor;
 	@FXML private GridPane gPane;
 	
-	void initMap(Map observableList) throws Exception {
-		for(int i=0;i<observableList.getHeight();i++) {
-			for(int j=0;j<observableList.getWidth();j++){
+	void initMap(Game newGame) throws Exception {
+		this.theGame = newGame;
+		Map myMap = theGame.getMap();
+		for(int i=0;i<myMap.getHeight();i++) {
+			for(int j=0;j<myMap.getWidth();j++){
 				Label test = new Label();			
-				String s = ""+observableList.getCell(i, j);
+				String s = ""+myMap.getCell(i, j);
 				if(s.compareTo("w")==0) test.setStyle("-fx-background-color: black;");	
 				else if(s.compareTo("d")==0) test.setStyle("-fx-border-color:black;-fx-background-color: grey;");
 				else if(s.compareTo("s")==0) test.setStyle("-fx-background-color: white;");
