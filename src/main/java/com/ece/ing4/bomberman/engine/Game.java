@@ -74,9 +74,7 @@ public class Game {
 			if(alive<2){
 				win = num;
 			}
-			
 		}
-		
 		return win;
 	}
 }
