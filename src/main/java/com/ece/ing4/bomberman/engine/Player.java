@@ -6,6 +6,9 @@ public class Player {
 	private String name;
 	private boolean alive;
 	
+	public Player (String s) {
+		this.name = s;
+	}
 	public String getName() {
 		return name;
 	}
