@@ -2,11 +2,21 @@ package com.ece.ing4.bomberman.engine;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+<<<<<<< HEAD
 public class Game {
 	
 	private ArrayList<Player> playerList;
 	private Map map;
 	
+=======
+
+public class Game {
+
+	private ArrayList<Player> playerList;
+	private Map map;
+	
+	
+>>>>>>> origin/master
 	public Game(int size){
 		
 		int height = 0;
@@ -21,6 +31,7 @@ public class Game {
 				break;
 		default: ;
 		}
+<<<<<<< HEAD
 		this.map = new Map(height, width);
 	}
 	
@@ -32,6 +43,12 @@ public class Game {
 		return this.playerList;
 	}
 	
+=======
+
+		this.map = new Map(height, width);
+	}
+	
+>>>>>>> origin/master
 	
 	public int connect(String name){
 		int res = 0;
