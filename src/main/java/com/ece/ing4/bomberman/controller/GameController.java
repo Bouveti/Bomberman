@@ -7,6 +7,7 @@ import java.net.MulticastSocket;
 import java.net.UnknownHostException;
 
 import com.ece.ing4.bomberman.engine.*;
+import com.ece.ing4.bomberman.engine.Character;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +38,7 @@ import java.net.Socket;
 public class GameController {
 	//@FXML private ListView<String> myList;
 	//@FXML private TextField inputList;
-	private Player player1;
+	private Character player1;
 	private static Socket socket;
 	private Map newMap ;
 	

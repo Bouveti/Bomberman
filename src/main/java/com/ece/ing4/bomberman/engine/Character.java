@@ -2,7 +2,7 @@ package com.ece.ing4.bomberman.engine;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Character {
 
 	private String name;
 	private int score;
@@ -20,7 +20,7 @@ public class Player {
 	private int blast;
 	private int countMax;
 
-	public Player(String name, int x, int y) {
+	public Character(String name, int x, int y) {
 		super();
 		this.id =++this.nbJoueurs;
 		this.name = name;
@@ -36,7 +36,7 @@ public class Player {
 		this.countMax = 1;
 	}
 	
-	public Player(String name) {
+	public Character(String name) {
 		this(name, 0,0);
 	}
 

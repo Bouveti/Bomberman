@@ -2,6 +2,7 @@ package com.ece.ing4.bomberman.controller;
 
 import java.net.InetAddress;
 import com.ece.ing4.bomberman.engine.*;
+import com.ece.ing4.bomberman.engine.Character;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +25,7 @@ import javafx.stage.Stage;
 public class LauncherController {
 	//@FXML private ListView<String> myList;
 	//@FXML private TextField inputList;
-	private Player player1;
+	private Character player1;
 	private Map newMap ;
 	
 	@FXML private TextField playerName;
@@ -42,7 +43,7 @@ public class LauncherController {
 	
 	private boolean createPlayer() {
 		if(!playerName.getText().contentEquals("")) {
-			this.player1 = new Player(playerName.getText());
+			this.player1 = new Character(playerName.getText());
 			return true;
 			
 		} else {
