@@ -1,11 +1,7 @@
 package com.ece.ing4.bomberman.engine;
-<<<<<<< HEAD
-public class Player {
-=======
 
 public class Player {
 
->>>>>>> origin/master
 	private Character character;
 	private String name;
 	private boolean alive;
@@ -49,8 +45,4 @@ public class Player {
 	public void setAlive(boolean alive){
 		this.alive = alive;
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/master
