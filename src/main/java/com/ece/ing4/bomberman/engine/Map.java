@@ -55,6 +55,10 @@ public class Map {
 		return this.table[x][y];
 	}
 	
+	public void setCell(int x, int y, char val){
+		this.table[x][y] = val;
+	}
+	
 	public char[] getLine(int x){
 		return this.table[x];
 	}

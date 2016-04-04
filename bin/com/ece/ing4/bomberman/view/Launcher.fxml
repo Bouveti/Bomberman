@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ece.ing4.bomberman.controller.LauncherController">
+   <children>
+      <ImageView fitHeight="563.0" fitWidth="797.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
+      <MenuBar layoutX="-108.0" layoutY="-147.0" prefHeight="35.0" prefWidth="800.0" AnchorPane.bottomAnchor="565.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label layoutX="265.0" layoutY="185.0" text="Pseudo :" />
+      <TextField fx:id="playerName" layoutX="364.0" layoutY="180.0" prefHeight="26.0" prefWidth="289.0" />
+      <Button fx:id="createGame" layoutX="376.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="97.0" text="Créer Partie" />
+      <Button fx:id="joinGame" layoutX="542.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="97.0" text="Rejoindre" />
+      <Label fx:id="playerHint" layoutX="365.0" layoutY="224.0" prefHeight="16.0" prefWidth="350.0" text="Merci de renseigner un pseudo avant de continuer." textFill="RED" visible="false" />
+   </children>
+</AnchorPane>

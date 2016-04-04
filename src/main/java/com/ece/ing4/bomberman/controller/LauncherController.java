@@ -2,6 +2,7 @@ package com.ece.ing4.bomberman.controller;
 
 import java.net.InetAddress;
 import com.ece.ing4.bomberman.engine.*;
+import com.ece.ing4.bomberman.engine.Character;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
