@@ -6,8 +6,11 @@ public class Player {
 	private String name;
 	private boolean alive;
 	
-	public Player(String name){
-		
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
 		this.name = name;
 	}
 	
@@ -31,10 +34,6 @@ public class Player {
 		}
 		
 		this.character = new Character(this.name, x, y);
-	}
-	
-	public String getName(){
-		return this.name;
 	}
 	
 	public boolean getAlive(){
