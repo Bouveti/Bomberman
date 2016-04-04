@@ -48,7 +48,6 @@ public class Game {
 				res = i;
 			}
 		}
-		
 		return res;
 	}
 	
