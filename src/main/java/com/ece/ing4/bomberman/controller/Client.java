@@ -10,14 +10,13 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
  
-public class Server
+public class Client
 {
 
     private static Socket socket;
  
     public static void main(String[] args) throws IOException
     {
-    	ThreadServer ts = new ThreadServer(25000);
     	
     	ThreadClient tc = new ThreadClient("localhost", 25000);
     	ThreadClient tc1 = new ThreadClient("localhost", 25000);

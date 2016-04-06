@@ -65,24 +65,24 @@ public class LauncherController {
 		    Stage stage; 
 		    Parent root;
 		    FXMLLoader fxmlLoader;
-		    this.playerList = new ListView<String>();
+		    
 		    if(event.getSource()==createGame){  
 		    	 stage = (Stage) createGame.getScene().getWindow();
 		         //root = FXMLLoader.load(getClass().getResource("../view/RoomCreate.fxml"));
 		         fxmlLoader = new FXMLLoader(getClass().getResource("../view/RoomCreate.fxml"));
 		         root = (Parent)fxmlLoader.load();    
 		         LauncherController controller = fxmlLoader.<LauncherController>getController();
-			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame);
-			     new Thread(new ThreadServer(newGame,this.playerList, FXCollections.observableArrayList(this.player1.getName()))).start();
+			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame,false);
+			     
 		    }
 		    else{
 		    	 stage = (Stage) joinGame.getScene().getWindow();
 		         fxmlLoader = new FXMLLoader(getClass().getResource("../view/RoomJoin.fxml"));
 		         root = (Parent)fxmlLoader.load();    
 		         LauncherController controller = fxmlLoader.<LauncherController>getController();
-			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame);
+			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame,true);
 		         //root = FXMLLoader.load(getClass().getResource("../view/RoomJoin.fxml"));
-			     new Thread(new ThreadClient(player1.getName())).start();
+			     
 		    }
 		     
 		    Scene scene = new Scene(root);
@@ -118,11 +118,15 @@ public class LauncherController {
 		else this.newGame.setMap(3);
 	}
 	
-	private void initData(ObservableList<String> observableList, Game ng) throws Exception {
+	private void initData(ObservableList<String> observableList, Game ng, boolean client) throws Exception {
 		this.newGame = ng;
 		this.playerList.setItems(observableList);
 		this.nbJoueurs.setText(playerList.getItems().size()+" / 4");
 		this.ipAddress.setText(InetAddress.getLocalHost().getHostAddress());
+		
+		//if(client) new Thread(new ThreadClient(observableList)).start();
+			//else new Thread(new ThreadServer(newGame, observableList)).start();
+		
 	}
 	
 	
