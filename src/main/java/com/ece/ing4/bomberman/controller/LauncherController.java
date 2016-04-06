@@ -72,7 +72,7 @@ public class LauncherController {
 		         fxmlLoader = new FXMLLoader(getClass().getResource("../view/RoomCreate.fxml"));
 		         root = (Parent)fxmlLoader.load();    
 		         LauncherController controller = fxmlLoader.<LauncherController>getController();
-			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame,false);
+			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame,true);
 			     
 		    }
 		    else{
@@ -80,7 +80,7 @@ public class LauncherController {
 		         fxmlLoader = new FXMLLoader(getClass().getResource("../view/RoomJoin.fxml"));
 		         root = (Parent)fxmlLoader.load();    
 		         LauncherController controller = fxmlLoader.<LauncherController>getController();
-			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame,true);
+			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame,false);
 		         //root = FXMLLoader.load(getClass().getResource("../view/RoomJoin.fxml"));
 			     
 		    }
@@ -118,15 +118,19 @@ public class LauncherController {
 		else this.newGame.setMap(3);
 	}
 	
-	private void initData(ObservableList<String> observableList, Game ng, boolean client) throws Exception {
+	private void initData(ObservableList<String> observableList, Game ng, boolean serverBool) throws Exception {
 		this.newGame = ng;
 		this.playerList.setItems(observableList);
 		this.nbJoueurs.setText(playerList.getItems().size()+" / 4");
 		this.ipAddress.setText(InetAddress.getLocalHost().getHostAddress());
 		
-		//if(client) new Thread(new ThreadClient(observableList)).start();
-			//else new Thread(new ThreadServer(newGame, observableList)).start();
-		
+		if(serverBool) {
+			//new Thread(new ThreadServer(newGame, observableList)).start();
+			ThreadServer server = new ThreadServer(10523);
+			(new Thread(server)).start();
+		}
+		ThreadClient server = new ThreadClient("localhost", 10523);
+		new Thread(server).start();
 	}
 	
 	

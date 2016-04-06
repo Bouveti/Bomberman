@@ -114,11 +114,6 @@ public class ThreadServer implements Runnable {
 			}
 		}
 	}
-
-	public static void main(String[] args) throws IOException {
-		ThreadServer server = new ThreadServer(10523);
-		(new Thread(server)).start();
-	}
 }
 
 

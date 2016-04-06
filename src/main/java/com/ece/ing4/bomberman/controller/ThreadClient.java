@@ -90,9 +90,4 @@ public class ThreadClient implements Runnable {
 			}
 		}
 	}
-
-	public static void main(String[] args) throws IOException {
-		ThreadClient server = new ThreadClient("localhost", 10523);
-		new Thread(server).start();
-	}
 }
