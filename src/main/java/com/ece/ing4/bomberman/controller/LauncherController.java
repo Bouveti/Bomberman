@@ -48,7 +48,7 @@ public class LauncherController {
 			
 			this.player1 = new Player(playerName.getText());
 			this.newGame = new Game();
-		    this.newGame.connect(player1.getName());
+		    //this.newGame.connect(player1.getName());
 		    System.out.println(player1);
 			return true;
 			
@@ -72,7 +72,7 @@ public class LauncherController {
 		         fxmlLoader = new FXMLLoader(getClass().getResource("../view/RoomCreate.fxml"));
 		         root = (Parent)fxmlLoader.load();    
 		         LauncherController controller = fxmlLoader.<LauncherController>getController();
-			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame,true);
+			     controller.initData(this.player1.getName(),newGame,true);
 			     
 		    }
 		    else{
@@ -80,7 +80,7 @@ public class LauncherController {
 		         fxmlLoader = new FXMLLoader(getClass().getResource("../view/RoomJoin.fxml"));
 		         root = (Parent)fxmlLoader.load();    
 		         LauncherController controller = fxmlLoader.<LauncherController>getController();
-			     controller.initData(FXCollections.observableArrayList(this.player1.getName()),newGame,false);
+			     controller.initData(this.player1.getName(),newGame,false);
 		         //root = FXMLLoader.load(getClass().getResource("../view/RoomJoin.fxml"));
 			     
 		    }
@@ -118,21 +118,21 @@ public class LauncherController {
 		else this.newGame.setMap(3);
 	}
 	
-	private void initData(ObservableList<String> observableList, Game ng, boolean serverBool) throws Exception {
+	private void initData(String playerName, Game ng, boolean serverBool) throws Exception {
 		this.newGame = ng;
+		ObservableList<String> observableList = FXCollections.observableArrayList();
 		this.playerList.setItems(observableList);
-		this.nbJoueurs.setText(playerList.getItems().size()+" / 4");
+		this.nbJoueurs.setText(observableList.size()+" / 4");
 		this.ipAddress.setText(InetAddress.getLocalHost().getHostAddress());
-		
+
 		if(serverBool) {
 			//new Thread(new ThreadServer(newGame, observableList)).start();
-			ThreadServer server = new ThreadServer(10523);
+			ThreadServer server = new ThreadServer(10523,newGame, observableList);
 			(new Thread(server)).start();
 		}
-		ThreadClient server = new ThreadClient("localhost", 10523);
+		ThreadClient server = new ThreadClient("localhost", 10523,observableList,playerName);
 		new Thread(server).start();
 	}
-	
 	
 
 	@FXML

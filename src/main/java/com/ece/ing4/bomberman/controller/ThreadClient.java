@@ -2,6 +2,7 @@ package com.ece.ing4.bomberman.controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,21 +38,22 @@ public class ThreadClient implements Runnable {
 	private Game game;
 	private BufferedReader in;
     private PrintWriter out;
+    private String host;
+    private int port;
+	private ObservableList<String> observableList;
 
-	public ThreadClient(String IPAddress, int port) throws IOException {
-		// socket = new Socket(IPAddress, port);
+	public ThreadClient(String IPAddress, int port, ObservableList<String> observableList,String playerName) throws IOException {
+		this.host = IPAddress;
+		this.observableList = observableList;
+		this.port = port;
+		this.name = playerName;
+		InetAddress address = InetAddress.getByName(host);
+		this.socket = new Socket(address, port);
 	}
 
 	public void run() {
 
 		try {
-
-			String host = "localhost";
-			int port = 10523;
-			InetAddress address = InetAddress.getByName(host);
-			this.socket = new Socket(address, port);
-
-
 			OutputStream os = socket.getOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(os);
 			BufferedWriter bw = new BufferedWriter(osw);
@@ -73,7 +75,18 @@ public class ThreadClient implements Runnable {
 		        InputStreamReader isr = new InputStreamReader(is);
 		        BufferedReader br = new BufferedReader(isr);
 		        String message = br.readLine();
-		        if (message !="")System.out.print(message);
+		        if (message !="")System.out.print("client : "+message);
+		        
+		        ObjectInputStream ois = 
+	                     new ObjectInputStream(socket.getInputStream());
+
+	            String s = (String)ois.readObject();
+	            System.out.println("String is: '" + s + "'");
+
+		        //Get the return message from the serverObjectInputStream ois = 
+            	//ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            	//this.game = (Game) ois.readObject();
+            	//System.out.print("Client : "+game.getPlayers().toString());
 			}
 			//String serverAddress = getServerAddress();
 	        //Socket socket = new Socket(serverAddress, 9001);

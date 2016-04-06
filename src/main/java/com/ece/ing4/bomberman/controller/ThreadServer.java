@@ -1,7 +1,9 @@
 package com.ece.ing4.bomberman.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -16,9 +18,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.zip.GZIPOutputStream;
 
 import com.ece.ing4.bomberman.engine.Game;
+import com.sun.corba.se.impl.orbutil.ObjectWriter;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 
@@ -33,9 +38,13 @@ public class ThreadServer implements Runnable {
 	private ServerSocketChannel ssc;
 	private Selector selector;
 	private ByteBuffer buf = ByteBuffer.allocate(256);
+	private Game mainGame;
+	private ObservableList<String> observableList;
 
-	ThreadServer(int port) throws IOException {
+	ThreadServer(int port, Game newGame, ObservableList<String> observableList) throws IOException {
 		this.port = port;
+		this.mainGame = newGame;
+		this.observableList = observableList;
 		this.ssc = ServerSocketChannel.open();
 		this.ssc.socket().bind(new InetSocketAddress(port));
 		this.ssc.configureBlocking(false);
@@ -89,6 +98,7 @@ public class ThreadServer implements Runnable {
 			byte[] bytes = new byte[buf.limit()];
 			buf.get(bytes);
 			sb.append(new String(bytes));
+			Platform.runLater(() ->this.observableList.add(sb.toString()));
 			buf.clear();
 		}
 		String msg;
@@ -105,12 +115,19 @@ public class ThreadServer implements Runnable {
 	}
 
 	private void broadcast(String msg) throws IOException {
-		ByteBuffer msgBuf=ByteBuffer.wrap(msg.getBytes());
+		
+		 ByteArrayOutputStream out = new ByteArrayOutputStream();
+		    ObjectOutputStream os = new ObjectOutputStream(out);
+		    
+		
 		for(SelectionKey key : selector.keys()) {
 			if(key.isValid() && key.channel() instanceof SocketChannel) {
 				SocketChannel sch=(SocketChannel) key.channel();
-				sch.write(msgBuf);
-				msgBuf.rewind();
+				ObjectOutputStream  oos = new ObjectOutputStream(sch.socket().getOutputStream());
+	            oos.writeObject(mainGame);
+
+				//sch.write(msgBuf);
+				//msgBuf.rewind();
 			}
 		}
 	}
