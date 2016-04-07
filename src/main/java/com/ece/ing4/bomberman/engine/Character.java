@@ -1,9 +1,14 @@
 package com.ece.ing4.bomberman.engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Character {
+public class Character implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1096805370408956773L;
 	private String name;
 	private int score;
 	

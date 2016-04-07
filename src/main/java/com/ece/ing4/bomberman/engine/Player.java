@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class Player implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6806907692586089400L;
 	private Character character;
 	private String name;
 	private boolean alive;

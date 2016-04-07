@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.ece.ing4.bomberman.engine.Game;
+import com.ece.ing4.bomberman.engine.Player;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -37,12 +38,13 @@ public class ThreadClient implements Runnable {
 	private String name = "client";
 	private Game game;
 	private BufferedReader in;
-    private PrintWriter out;
-    private String host;
-    private int port;
+	private PrintWriter out;
+	private String host;
+	private int port;
 	private ObservableList<String> observableList;
 
-	public ThreadClient(String IPAddress, int port, ObservableList<String> observableList,String playerName) throws IOException {
+	public ThreadClient(String IPAddress, int port, ObservableList<String> observableList, String playerName)
+			throws IOException {
 		this.host = IPAddress;
 		this.observableList = observableList;
 		this.port = port;
@@ -61,7 +63,7 @@ public class ThreadClient implements Runnable {
 			String sendMessage = name + "\n";
 			bw.write(sendMessage);
 			bw.flush();
-			System.out.println(sendMessage);
+			System.out.println("CLIENT : " + sendMessage);
 
 			// Get the return message from the server
 
@@ -70,28 +72,21 @@ public class ThreadClient implements Runnable {
 			// System.out.print("CLIENT " + game.getPlayers().toString());
 			// System.out.print("CLIENT " + (String) ois.readObject());
 			// Platform.runLater(() ->setListViewObs());
-			while(true) {
+			while (true) {
 				InputStream is = socket.getInputStream();
-		        InputStreamReader isr = new InputStreamReader(is);
-		        BufferedReader br = new BufferedReader(isr);
-		        String message = br.readLine();
-		        if (message !="")System.out.print("client : "+message);
-		        
-		        ObjectInputStream ois = 
-	                     new ObjectInputStream(socket.getInputStream());
+				InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr);
+				String message = br.readLine();
+				if (message != "")
+					System.out.print("client : " + message);
 
-	            String s = (String)ois.readObject();
-	            System.out.println("String is: '" + s + "'");
+				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+				Game test = (Game) ois.readObject();
 
-		        //Get the return message from the serverObjectInputStream ois = 
-            	//ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            	//this.game = (Game) ois.readObject();
-            	//System.out.print("Client : "+game.getPlayers().toString());
+				//test.getPlayers().add(new Player(name));
+				for(int i = 0;i<test.getPlayers().size();i++) System.out.println("LA LISTE EST : " + test.getPlayers().get(i).getName());
+
 			}
-			//String serverAddress = getServerAddress();
-	        //Socket socket = new Socket(serverAddress, 9001);
-	        
-			
 
 		} catch (Exception exception) {
 			exception.printStackTrace();

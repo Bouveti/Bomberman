@@ -6,6 +6,14 @@ import java.util.ArrayList;
 
 public class Game implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1074505702590621633L;
+	/**
+	 * 
+	 */
+
 	private ArrayList<Player> playerList;
 	private Map map;
 	
