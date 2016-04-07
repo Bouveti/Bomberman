@@ -41,6 +41,7 @@ public class ThreadClient implements Runnable {
 	private PrintWriter out;
 	private String host;
 	private int port;
+	private boolean receiving = true;
 	private ObservableList<String> observableList;
 
 	public ThreadClient(String IPAddress, int port, ObservableList<String> observableList, String playerName)
@@ -71,22 +72,29 @@ public class ThreadClient implements Runnable {
 			// this.game = (Game) ois.readObject();
 			// System.out.print("CLIENT " + game.getPlayers().toString());
 			// System.out.print("CLIENT " + (String) ois.readObject());
-			// Platform.runLater(() ->setListViewObs());
-			while (true) {
-				InputStream is = socket.getInputStream();
-				InputStreamReader isr = new InputStreamReader(is);
-				BufferedReader br = new BufferedReader(isr);
-				String message = br.readLine();
-				if (message != "")
-					System.out.print("client : " + message);
-
+			// 
+			while(receiving) {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-				Game test = (Game) ois.readObject();
-
+				Game mainGame = (Game) ois.readObject();
+				
+				
+				Platform.runLater(() ->setListViewObs(mainGame));
+				try {
+					
+				} catch (Exception exception) {
+					InputStream is = socket.getInputStream();
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader br = new BufferedReader(isr);
+					String message = br.readLine();
+					if (message != null)
+						System.out.print("client : " + message);
+				
+				}
+				
 				//test.getPlayers().add(new Player(name));
-				for(int i = 0;i<test.getPlayers().size();i++) System.out.println("LA LISTE EST : " + test.getPlayers().get(i).getName());
-
+				
 			}
+			
 
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -97,5 +105,12 @@ public class ThreadClient implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private Object setListViewObs(Game mainGame) {
+		this.observableList.clear();
+		for(int i = 0;i<mainGame.getPlayers().size();i++) 
+			this.observableList.add(mainGame.getPlayers().get(i).getName());
+		return null;
 	}
 }

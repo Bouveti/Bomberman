@@ -40,12 +40,11 @@ public class ThreadServer implements Runnable {
 	private Selector selector;
 	private ByteBuffer buf = ByteBuffer.allocate(256);
 	private Game mainGame;
-	private ObservableList<String> observableList;
+	private ArrayList<Socket> listClient;
 
-	ThreadServer(int port, Game newGame, ObservableList<String> observableList) throws IOException {
+	ThreadServer(int port, Game newGame) throws IOException {
 		this.port = port;
 		this.mainGame = newGame;
-		this.observableList = observableList;
 		this.ssc = ServerSocketChannel.open();
 		this.ssc.socket().bind(new InetSocketAddress(port));
 		this.ssc.configureBlocking(false);
@@ -67,7 +66,6 @@ public class ThreadServer implements Runnable {
 				while (iter.hasNext()) {
 					key = iter.next();
 					iter.remove();
-
 					if (key.isAcceptable())
 						this.handleAccept(key);
 					if (key.isReadable())
@@ -88,9 +86,10 @@ public class ThreadServer implements Runnable {
 				.append(sc.socket().getPort()).toString();
 		sc.configureBlocking(false);
 		sc.register(selector, SelectionKey.OP_READ, address);
-		sc.write(welcomeBuf);
-		welcomeBuf.rewind();
+		//sc.write(welcomeBuf);
+		//welcomeBuf.rewind();
 		System.out.println("accepted connection from: " + address);
+		broadcast();
 	}
 
 	private void handleRead(SelectionKey key) throws IOException {
@@ -105,29 +104,20 @@ public class ThreadServer implements Runnable {
 			buf.get(bytes);
 			sb.append(new String(bytes));
 			mainGame.getPlayers().add(new Player(sb.toString()));
-			Platform.runLater(() -> this.observableList.add(sb.toString()));
+			//Platform.runLater(() -> this.observableList.add(sb.toString()));
 			buf.clear();
 		}
-		String msg;
-		if (read < 0) {
-			msg = key.attachment() + " left the chat.\n";
-			ch.close();
-		} else {
-			msg = key.attachment() + ": " + sb.toString();
-		}
-
-		System.out.println(msg);
-		broadcast(msg);
+		broadcast();
 	}
 
-	private void broadcast(String msg) throws IOException {
-
+	private void broadcast() throws IOException {
 		ByteBuffer writeBuffer = ByteBuffer.wrap(getBytes(mainGame));
 
 		for (SelectionKey key : selector.keys()) {
 			if (key.isValid() && key.channel() instanceof SocketChannel) {
 				SocketChannel sch = (SocketChannel) key.channel();
 				sch.write(writeBuffer);
+				writeBuffer.rewind();
 			}
 		}
 	}

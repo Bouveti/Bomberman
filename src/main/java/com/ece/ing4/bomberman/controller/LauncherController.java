@@ -128,11 +128,11 @@ public class LauncherController {
 		if(serverBool) {
 			//new Thread(new ThreadServer(newGame, observableList)).start();
 			System.out.println("LAUNCHER : ");
-			ThreadServer server = new ThreadServer(10523,newGame, observableList);
+			ThreadServer server = new ThreadServer(10523,newGame);
 			(new Thread(server)).start();
 		}
-		ThreadClient server = new ThreadClient("localhost", 10523,observableList,playerName);
-		new Thread(server).start();
+		ThreadClient client = new ThreadClient("localhost", 10523,observableList,playerName);
+		new Thread(client).start();
 	}
 	
 
