@@ -50,11 +50,12 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="524.0" layoutY="139.0" text="port">
+      <Label fx:id="portAddress" layoutX="524.0" layoutY="139.0" text="port">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
+    
       <Label fx:id="nbJoueurs" layoutX="285.0" layoutY="63.0" prefHeight="28.0" prefWidth="55.0" text="Label">
          <font>
             <Font size="22.0" />

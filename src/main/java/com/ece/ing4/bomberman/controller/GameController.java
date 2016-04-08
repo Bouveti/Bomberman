@@ -43,33 +43,60 @@ public class GameController {
 	private static Socket socket;
 	private Map newMap ;
 	private Game theGame;
+	private int idJoueur;
+	
+	private ThreadClient client;
 	
 	@FXML private AnchorPane anchor;
 	@FXML private GridPane gPane;
 	
-	void initMap(Game newGame) throws Exception {
+	void initMap(Game newGame, int idJoueur, ThreadClient client) throws Exception {
 		this.theGame = newGame;
-		System.out.println(newGame);
+		this.idJoueur = idJoueur;
+		this.client = client;
+		System.out.println(newGame.getPlayers().get(0).getName());
 		Map myMap = theGame.getMap();
 		for(int i=0;i<myMap.getHeight();i++) {
 			for(int j=0;j<myMap.getWidth();j++){
 				Label test = new Label();			
 				String s = ""+myMap.getCell(i, j);
+				String inCase = "";
 				if(s.compareTo("w")==0) test.setStyle("-fx-background-color: black;");	
 				else if(s.compareTo("d")==0) test.setStyle("-fx-border-color:black;-fx-background-color: grey;");
-				else if(s.compareTo("s")==0) test.setStyle("-fx-background-color: white;");
+				else if(s.compareTo("s")==0) { test.setStyle("-fx-background-color: white;-fx-alignment: center;");
+				}
 				else if(s.compareTo(" ")==0) test.setStyle("-fx-background-color: white;");
 				test.setMinHeight(35);
 				test.setMinWidth(35);
-				test.setText("");
+				test.setText(inCase);
 				gPane.add(test, i, j);
+		
 			}
 		}
+		for(int j=0;j<theGame.getPlayers().size();j++) {
+			int x = theGame.getPlayers().get(j).getCharact().getX();
+			int y = theGame.getPlayers().get(j).getCharact().getY();
+			Label node = (Label) getNodeByRowColumnIndex(x,y,gPane);
+			node.setText("P"+j);
+		}
 	}
+	
+	public Node getNodeByRowColumnIndex(final int row,final int column,GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for(Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+        return result;
+    }
 	@FXML
     private void keyPressed(KeyEvent evt) throws IOException {
-		String s = ""+evt.getCode();
-		char result = 0;
+		String s = "CMD:"+idJoueur+""+evt.getCode();
+		sendCmd(s);
+		/*char result = 0;
 		switch (s) {
 			case "W" : result = 'z';
 				sendCmd(result);
@@ -87,10 +114,13 @@ public class GameController {
 				sendCmd(result);
 				break;
 			default : break;
-		}
+		}*/
 	}
 		
-	private void sendCmd(char result) {
+	private void sendCmd(String result) throws IOException {
+		this.client.writeToServer(result);
+	}
+	/*private void sendCmd(char result) {
 		try
         {
             String host = "localhost";
@@ -132,6 +162,6 @@ public class GameController {
             }
         }
     }
-		
+		*/
 	}	
 

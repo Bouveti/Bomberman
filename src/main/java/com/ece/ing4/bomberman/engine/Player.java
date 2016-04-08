@@ -11,6 +11,7 @@ public class Player implements Serializable{
 	private Character character;
 	private String name;
 	private boolean alive;
+	private int id;
 	
 	public Player (String s) {
 		this.name = s;
@@ -32,8 +33,8 @@ public class Player implements Serializable{
 		case 1: x = mapSize-2;
 				y = 1;
 				break;
-		case 2:	x = mapSize-2;
-				y = 1;
+		case 2:	x = 1;
+				y = mapSize-2;
 				break;
 		case 3: x = mapSize-2;
 				y = mapSize-2;
@@ -46,6 +47,10 @@ public class Player implements Serializable{
 	
 	public boolean getAlive(){
 		return this.alive;
+	}
+	
+	public Character getCharact() {
+		return this.character;
 	}
 	
 	public void setAlive(boolean alive){

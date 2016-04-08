@@ -50,7 +50,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Label layoutX="524.0" layoutY="139.0" text="port">
+      <Label fx:id="portAddress" layoutX="524.0" layoutY="139.0" text="port">
          <font>
             <Font size="22.0" />
          </font>
@@ -60,7 +60,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Button onAction="#launchGame" layoutX="591.0" layoutY="502.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="132.0" text="JOUER" />
+      <Button layoutX="591.0" layoutY="502.0" mnemonicParsing="false" onAction="#launchGame" prefHeight="52.0" prefWidth="132.0" text="JOUER" />
       <RadioButton fx:id="mapSmallRadio" layoutX="554.0" layoutY="236.0" mnemonicParsing="false" text="Small">
          <toggleGroup>
             <ToggleGroup fx:id="mapSize" />
@@ -82,7 +82,7 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <Button fx:id="cancelGame" onAction="#cancelGame" layoutX="408.0" layoutY="501.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="132.0" text="ANNULER" />
+      <Button fx:id="cancelGame" layoutX="408.0" layoutY="501.0" mnemonicParsing="false" onAction="#cancelGame" prefHeight="52.0" prefWidth="132.0" text="ANNULER" />
       
    </children>
 </AnchorPane>

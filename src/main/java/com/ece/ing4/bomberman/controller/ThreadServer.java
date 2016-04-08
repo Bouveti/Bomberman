@@ -27,6 +27,7 @@ import com.sun.corba.se.impl.orbutil.ObjectWriter;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 
 import java.net.*;
 import java.nio.*;
@@ -49,7 +50,6 @@ public class ThreadServer implements Runnable {
 		this.ssc.socket().bind(new InetSocketAddress(port));
 		this.ssc.configureBlocking(false);
 		this.selector = Selector.open();
-
 		this.ssc.register(selector, SelectionKey.OP_ACCEPT);
 	}
 
@@ -103,11 +103,31 @@ public class ThreadServer implements Runnable {
 			byte[] bytes = new byte[buf.limit()];
 			buf.get(bytes);
 			sb.append(new String(bytes));
-			mainGame.getPlayers().add(new Player(sb.toString()));
+			if(sb.toString().substring(0, 3).compareTo("map") == 0) {
+				System.out.println(Integer.parseInt(sb.toString().substring(sb.toString().length()-1, sb.toString().length())));
+				this.mainGame.setMap(Integer.parseInt(sb.toString().substring(sb.toString().length()-1, sb.toString().length())));
+				this.mainGame.setGameStarted(true);
+				placePlayer();
+			}
+			if(sb.toString().substring(0, 4).compareTo("CMD:") == 0) {
+				System.out.println(Integer.parseInt(sb.toString().substring(sb.toString().length()-1, sb.toString().length())));
+				this.mainGame.setMap(Integer.parseInt(sb.toString().substring(sb.toString().length()-1, sb.toString().length())));
+				this.mainGame.setGameStarted(true);
+				placePlayer();
+			}else {
+				this.mainGame.getPlayers().add(new Player(sb.toString()));
+				System.out.println(mainGame.getGameStarted());
+			}
+			
 			//Platform.runLater(() -> this.observableList.add(sb.toString()));
 			buf.clear();
 		}
 		broadcast();
+	}
+
+	private void placePlayer() {
+		for(int i = 0;i<mainGame.getPlayers().size();i++)
+		this.mainGame.getPlayers().get(i).spawn(i, mainGame.getMap().getHeight());
 	}
 
 	private void broadcast() throws IOException {

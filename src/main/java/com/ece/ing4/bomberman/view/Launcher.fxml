@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -28,10 +29,25 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Label layoutX="265.0" layoutY="185.0" text="Pseudo :" />
-      <TextField fx:id="playerName" layoutX="364.0" layoutY="180.0" prefHeight="26.0" prefWidth="289.0" />
-      <Button fx:id="createGame" layoutX="376.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="97.0" text="Créer Partie" />
-      <Button fx:id="joinGame" layoutX="542.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="97.0" text="Rejoindre" />
-      <Label fx:id="playerHint" layoutX="365.0" layoutY="224.0" prefHeight="16.0" prefWidth="350.0" text="Merci de renseigner un pseudo avant de continuer." textFill="RED" visible="false" />
+      <Label layoutX="126.0" layoutY="177.0" text="Pseudo :" />
+      <TextField fx:id="playerName" layoutX="225.0" layoutY="172.0" prefHeight="26.0" prefWidth="358.0" text="test"/>
+      <TextField fx:id="ip" layoutX="225.0" layoutY="230.0" prefHeight="26.0" prefWidth="242.0" text="localhost"/>
+      <TextField fx:id="port" layoutX="487.0" layoutY="230.0" prefHeight="26.0" prefWidth="95.0" text="25000"/>
+      <Button fx:id="createGame" layoutX="225.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="165.0" text="Créer Partie" />
+      <Button fx:id="joinGame" layoutX="415.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="165.0" text="Rejoindre" />
+      <Label fx:id="playerHint" layoutX="226.0" layoutY="208.0" prefHeight="14.0" prefWidth="356.0" text="Merci de renseigner un pseudo avant de continuer." textFill="RED" visible="false" />
+      
+      <Label layoutX="118.0" layoutY="234.0" text="IP &amp; Port :" />
+      <Label fx:id="ipHint" layoutX="233.0" layoutY="280.0" prefHeight="16.0" prefWidth="340.0" text="Merci de renseigner une adresse IP et un PORT" textFill="RED" visible="false" />
+      <Label fx:id="ipAddress" layoutX="575.0" layoutY="58.0" prefHeight="28.0" prefWidth="185.0" text="">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="481.0" layoutY="58.0" prefHeight="28.0" prefWidth="99.0" text="Ton ip : ">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

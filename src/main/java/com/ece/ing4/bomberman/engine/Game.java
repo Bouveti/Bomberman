@@ -16,6 +16,7 @@ public class Game implements Serializable{
 
 	private ArrayList<Player> playerList;
 	private Map map;
+	private boolean gameStarted = false;
 	
 	public Game () {
 		this.playerList = new ArrayList<Player>();
@@ -55,7 +56,6 @@ public class Game implements Serializable{
 			res = this.playerList.size()+1;
 			this.playerList.add(new Player(name));
 		}
-		
 		return res;
 	}
 	
@@ -95,5 +95,12 @@ public class Game implements Serializable{
 			}
 		}
 		return win;
+	}
+
+	public boolean getGameStarted() {
+		return this.gameStarted;
+	}
+	public void setGameStarted(boolean b) {
+		this.gameStarted = b;
 	}
 }
