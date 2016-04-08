@@ -208,6 +208,7 @@ public class LauncherController {
                     	if(mainGame.getGameStarted())
 							try {
 								launchGameByClient();
+								this.stop();
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

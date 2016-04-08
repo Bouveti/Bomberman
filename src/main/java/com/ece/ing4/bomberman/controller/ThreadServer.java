@@ -108,18 +108,11 @@ public class ThreadServer implements Runnable {
 				this.mainGame.setMap(Integer.parseInt(sb.toString().substring(sb.toString().length()-1, sb.toString().length())));
 				this.mainGame.setGameStarted(true);
 				placePlayer();
-			}
-			if(sb.toString().substring(0, 4).compareTo("CMD:") == 0) {
-				System.out.println(Integer.parseInt(sb.toString().substring(sb.toString().length()-1, sb.toString().length())));
-				this.mainGame.setMap(Integer.parseInt(sb.toString().substring(sb.toString().length()-1, sb.toString().length())));
-				this.mainGame.setGameStarted(true);
-				placePlayer();
+			}else if(sb.toString().substring(0, 4).compareTo("CMD:") == 0) {
+				this.mainGame.movePlayer(Integer.parseInt(sb.toString().substring(4,5)), sb.toString().substring(5, sb.toString().length()));
 			}else {
 				this.mainGame.getPlayers().add(new Player(sb.toString()));
-				System.out.println(mainGame.getGameStarted());
 			}
-			
-			//Platform.runLater(() -> this.observableList.add(sb.toString()));
 			buf.clear();
 		}
 		broadcast();
@@ -128,6 +121,7 @@ public class ThreadServer implements Runnable {
 	private void placePlayer() {
 		for(int i = 0;i<mainGame.getPlayers().size();i++)
 		this.mainGame.getPlayers().get(i).spawn(i, mainGame.getMap().getHeight());
+		this.mainGame.getMap().removeSpawn();
 	}
 
 	private void broadcast() throws IOException {

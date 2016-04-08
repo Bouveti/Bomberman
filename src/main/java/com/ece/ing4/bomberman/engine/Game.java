@@ -100,6 +100,13 @@ public class Game implements Serializable{
 	public boolean getGameStarted() {
 		return this.gameStarted;
 	}
+	
+	public void movePlayer(int id, String move) {
+		this.playerList.get(id).moveCharact(map,move);
+		System.out.println(this.playerList.get(id).getCharact().getX());
+		System.out.println(this.playerList.get(id).getCharact().getY());
+	}
+	
 	public void setGameStarted(boolean b) {
 		this.gameStarted = b;
 	}

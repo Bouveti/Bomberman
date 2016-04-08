@@ -80,4 +80,14 @@ public class Map implements Serializable{
 	public int getHeight(){
 		return this.height;
 	}
+
+	public void removeSpawn() {
+		for(int i = 0;i<height;i++) {
+			for(int j = 0;j<width;j++) {
+				if (this.getCell(i, j) == 's') this.setCell(i, j, ' ');
+			}
+		}
+		// TODO Auto-generated method stub
+		
+	}
 }

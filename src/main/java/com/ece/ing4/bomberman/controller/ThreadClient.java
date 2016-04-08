@@ -130,8 +130,11 @@ public class ThreadClient implements Runnable {
 
 				System.out.println("My ID : "+idJoueur);
 				
-				messageQueue.put(nbJoueurs);
-				portQueue.put(portAdd);
+				if(!mainGame.getGameStarted()) {
+					messageQueue.put(nbJoueurs);
+					portQueue.put(portAdd);
+				}
+				
 				gameQueue.put(mainGame);
 
 				Platform.runLater(() -> setListViewObs(mainGame));
@@ -178,5 +181,9 @@ public class ThreadClient implements Runnable {
 
 	public BlockingQueue<String> getQueue() {
 		return this.cmdQueue;
+	}
+
+	public BlockingQueue<Game> getGameQueue() {
+		return this.gameQueue;
 	}
 }

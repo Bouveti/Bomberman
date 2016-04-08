@@ -5,10 +5,15 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.UnknownHostException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import com.ece.ing4.bomberman.engine.*;
 import com.ece.ing4.bomberman.engine.Character;
 
+import javafx.animation.AnimationTimer;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,15 +42,11 @@ import java.net.Socket;
 
 public class GameController {
 	
-	//@FXML private ListView<String> myList;
-	//@FXML private TextField inputList;
-	private Character player1;
-	private static Socket socket;
-	private Map newMap ;
 	private Game theGame;
 	private int idJoueur;
 	
 	private ThreadClient client;
+	BlockingQueue<Game> gameQueue = new ArrayBlockingQueue<>(1);
 	
 	@FXML private AnchorPane anchor;
 	@FXML private GridPane gPane;
@@ -54,33 +55,60 @@ public class GameController {
 		this.theGame = newGame;
 		this.idJoueur = idJoueur;
 		this.client = client;
-		System.out.println(newGame.getPlayers().get(0).getName());
+		this.gameQueue = client.getGameQueue();
+		drawMap();
+	}
+	
+	private AnimationTimer waitGameInput() {
+		final LongProperty lastUpdate = new SimpleLongProperty();
+        final long minUpdateInterval = 0 ; // nanoseconds. Set to higher number to slow output.
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (now - lastUpdate.get() > minUpdateInterval) {
+                    final Game mainGame = gameQueue.poll();
+                    if (mainGame != null && mainGame.getPlayers().size()>0) {
+                    	theGame = mainGame;     
+                    	drawMap();
+                    	this.stop();
+                    }
+                    lastUpdate.set(now);
+                }
+            }
+        };
+        return timer;
+	}
+
+	private void drawMap() {
+		
+		AnimationTimer timer= waitGameInput();
+		timer.start();
 		Map myMap = theGame.getMap();
 		for(int i=0;i<myMap.getHeight();i++) {
 			for(int j=0;j<myMap.getWidth();j++){
-				Label test = new Label();			
+				Label caseMap = new Label();			
 				String s = ""+myMap.getCell(i, j);
-				String inCase = "";
-				if(s.compareTo("w")==0) test.setStyle("-fx-background-color: black;");	
-				else if(s.compareTo("d")==0) test.setStyle("-fx-border-color:black;-fx-background-color: grey;");
-				else if(s.compareTo("s")==0) { test.setStyle("-fx-background-color: white;-fx-alignment: center;");
-				}
-				else if(s.compareTo(" ")==0) test.setStyle("-fx-background-color: white;");
-				test.setMinHeight(35);
-				test.setMinWidth(35);
-				test.setText(inCase);
-				gPane.add(test, i, j);
-		
+				if(s.compareTo("w")==0) caseMap.setStyle("-fx-background-color: black;");	
+				else if(s.compareTo("d")==0) caseMap.setStyle("-fx-border-color:black;-fx-background-color: grey;");
+				else if(s.compareTo("s")==0) caseMap.setStyle("-fx-background-color: white;-fx-alignment: center;");
+				else if(s.compareTo(" ")==0) caseMap.setStyle("-fx-background-color: white;");
+				caseMap.setMinHeight(35);
+				caseMap.setMinWidth(35);
+				caseMap.setText("");
+				gPane.add(caseMap, i, j);
 			}
 		}
-		for(int j=0;j<theGame.getPlayers().size();j++) {
-			int x = theGame.getPlayers().get(j).getCharact().getX();
-			int y = theGame.getPlayers().get(j).getCharact().getY();
+		System.out.println("SIZE : "+theGame.getPlayers().size());
+		for(int k=0;k<theGame.getPlayers().size();k++) {
+			int x = theGame.getPlayers().get(k).getCharact().getX();
+			int y = theGame.getPlayers().get(k).getCharact().getY();
+			System.out.println("JE DESSINE EN : "+x+"/"+y);
 			Label node = (Label) getNodeByRowColumnIndex(x,y,gPane);
-			node.setText("P"+j);
+			node.setText("P"+k);
 		}
 	}
-	
+
 	public Node getNodeByRowColumnIndex(final int row,final int column,GridPane gridPane) {
         Node result = null;
         ObservableList<Node> childrens = gridPane.getChildren();
@@ -96,72 +124,10 @@ public class GameController {
     private void keyPressed(KeyEvent evt) throws IOException {
 		String s = "CMD:"+idJoueur+""+evt.getCode();
 		sendCmd(s);
-		/*char result = 0;
-		switch (s) {
-			case "W" : result = 'z';
-				sendCmd(result);
-				break;
-			case "A" : result = 'q';
-				sendCmd(result);
-				break;
-			case "S" : result = 's';
-				sendCmd(result);
-				break;
-			case "D" : result = 'd';
-				sendCmd(result);
-				break;
-			case "SPACE" : result = 'b';
-				sendCmd(result);
-				break;
-			default : break;
-		}*/
 	}
 		
 	private void sendCmd(String result) throws IOException {
 		this.client.writeToServer(result);
 	}
-	/*private void sendCmd(char result) {
-		try
-        {
-            String host = "localhost";
-            int port = 25000;
-            InetAddress address = InetAddress.getByName(host);
-            socket = new Socket(address, port);
- 
-            //Send the message to the server
-            OutputStream os = socket.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(os);
-            BufferedWriter bw = new BufferedWriter(osw);
- 
-            String sendMessage = result + "\n";
-            bw.write(sendMessage);
-            bw.flush();
-            System.out.println(sendMessage);
- 
-            //Get the return message from the server
-            InputStream is = socket.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String message = br.readLine();
-            System.out.print(message);
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-        }
-        finally
-        {
-            //Closing the socket
-            try
-            {
-                socket.close();
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-		*/
-	}	
+}	
 
