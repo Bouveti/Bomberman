@@ -142,7 +142,7 @@ public class LauncherController {
 	    Scene scene = new Scene(root);
 	    scene.getRoot().requestFocus();
       	stage.setScene(scene);
-      	stage.show(); 
+      	stage.show();
 	}
 	
 	private void defineMap() throws InterruptedException {

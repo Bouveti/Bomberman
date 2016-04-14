@@ -85,6 +85,7 @@ public class GameController {
 		AnimationTimer timer= waitGameInput();
 		timer.start();
 		Map myMap = theGame.getMap();
+		gPane.getChildren().clear();
 		for(int i=0;i<myMap.getHeight();i++) {
 			for(int j=0;j<myMap.getWidth();j++){
 				Label caseMap = new Label();			
@@ -105,6 +106,7 @@ public class GameController {
 			int y = theGame.getPlayers().get(k).getCharact().getY();
 			System.out.println("JE DESSINE EN : "+x+"/"+y);
 			Label node = (Label) getNodeByRowColumnIndex(x,y,gPane);
+			node.setStyle("-fx-border-color:black;-fx-background-color: green;");
 			node.setText("P"+k);
 		}
 	}
@@ -122,6 +124,7 @@ public class GameController {
     }
 	@FXML
     private void keyPressed(KeyEvent evt) throws IOException {
+		System.out.println("TEST EVENT APPUYER");
 		String s = "CMD:"+idJoueur+""+evt.getCode();
 		sendCmd(s);
 	}
