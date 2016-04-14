@@ -67,26 +67,38 @@ public class Player implements Serializable {
 	public void moveCharact(Map map, String move) {
 		switch (move) {
 		case "A":
+		case "LEFT":
 			if (map.getCell(this.character.getX(), (this.character.getY() - 1)) == ' ') {
 				this.character.setY(this.character.getY() - 1);
 			} 
 			break;
 		case "D":
+		case "RIGHT":
 			if (map.getCell(this.character.getX(), (this.character.getY() + 1)) == ' ') {
 				this.character.setY(this.character.getY() + 1);
 			} 
 			break;
 		case "W":
+		case "UP":
 			if (map.getCell(this.character.getX() - 1, (this.character.getY())) == ' ') {
 				this.character.setX(this.character.getX() - 1);
 			} 
 			break;
 		case "S":
+		case "DOWN":
 			if (map.getCell(this.character.getX() + 1, (this.character.getY())) == ' ') {
 				this.character.setX(this.character.getX() + 1);
 			} 
 			break;
 		}
 
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
