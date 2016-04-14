@@ -75,9 +75,8 @@ public class ThreadClient implements Runnable {
 
 	protected void disconnect() {
 		final LongProperty lastUpdate = new SimpleLongProperty();
-		final long minUpdateInterval = 0; // nanoseconds. Set to higher number
-											// to slow output.
-
+		final long minUpdateInterval = 0;
+		
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
@@ -89,7 +88,6 @@ public class ThreadClient implements Runnable {
 							try {
 								socket.close();
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 					
@@ -97,7 +95,6 @@ public class ThreadClient implements Runnable {
 							try {
 								writeToServer(message);
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						lastUpdate.set(now);
@@ -112,13 +109,6 @@ public class ThreadClient implements Runnable {
 	public void run() {
 		try {
 			writeToServer(name + "\n");
-			// Get the return message from the server
-
-			// InputStream ois = new InputStream(socket.getInputStream());
-			// this.game = (Game) ois.readObject();
-			// System.out.print("CLIENT " + game.getPlayers().toString());
-			// System.out.print("CLIENT " + (String) ois.readObject());
-			//
 			while (receiving) {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				Game mainGame = (Game) ois.readObject();
@@ -126,6 +116,7 @@ public class ThreadClient implements Runnable {
 				final String portAdd = this.port + "";
 				if(idJoueur == -1) {
 					this.idJoueur = mainGame.getPlayers().size();
+					idQueue.put(idJoueur);
 				}
 
 				System.out.println("My ID : "+idJoueur);
@@ -136,19 +127,7 @@ public class ThreadClient implements Runnable {
 				}
 				
 				gameQueue.put(mainGame);
-
 				Platform.runLater(() -> setListViewObs(mainGame));
-				
-					/*InputStream is = socket.getInputStream();
-					InputStreamReader isr = new InputStreamReader(is);
-					BufferedReader br = new BufferedReader(isr);
-					String message = br.readLine();
-					if (message != null)
-						System.out.print("client : " + message);
-					*/
-				
-
-				// test.getPlayers().add(new Player(name));
 
 			}
 
@@ -164,12 +143,12 @@ public class ThreadClient implements Runnable {
 	}
 
 	protected void writeToServer(String s) throws IOException {
+		System.out.println("Thread CLIENT : "+s);
 		OutputStream os = socket.getOutputStream();
 		OutputStreamWriter osw = new OutputStreamWriter(os);
 		BufferedWriter bw = new BufferedWriter(osw);
 		bw.write(s);
 		bw.flush();
-		System.out.println("CLIENT : " + s);
 	}
 
 	private Object setListViewObs(Game mainGame) {

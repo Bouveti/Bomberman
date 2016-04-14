@@ -71,9 +71,6 @@ public class LauncherController {
 				this.newGame = new Game();
 				this.ipHost = ip.getText();
 				this.portHost = Integer.parseInt(port.getText());
-				//this.newGame.connect(player1.getName());
-				//System.out.println(ipHost +" / / "+ portHost);
-
 				return true;
 			}else {
 				ipHint.setVisible(true);
@@ -123,9 +120,6 @@ public class LauncherController {
 	@FXML
 	private void launchGame() throws Exception {
 		defineMap();
-		//cmdQueue = client.getQueue();
-		//cmdQueue.put("map : 2");
-		//launchGameByClient();
     }
 	
 	private void launchGameByClient() throws Exception {
@@ -195,6 +189,7 @@ public class LauncherController {
                     final Integer idJ = idQueue.poll();
                     final Game mainGame = gameQueue.poll();
                     if (idJ != null && (idJ >-1)) {
+                    	System.out.println("ID LAUNCHER: "+idJ);
                     	idJoueur = idJ;
                     }
                     if (message != null) {  	

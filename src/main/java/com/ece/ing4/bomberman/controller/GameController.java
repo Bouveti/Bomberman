@@ -104,7 +104,6 @@ public class GameController {
 		for(int k=0;k<theGame.getPlayers().size();k++) {
 			int x = theGame.getPlayers().get(k).getCharact().getX();
 			int y = theGame.getPlayers().get(k).getCharact().getY();
-			System.out.println("JE DESSINE EN : "+x+"/"+y);
 			Label node = (Label) getNodeByRowColumnIndex(x,y,gPane);
 			if(k==0) node.setStyle("-fx-border-color:black;-fx-background-color: red;");
 			if(k==1) node.setStyle("-fx-border-color:black;-fx-background-color: green;");
@@ -127,7 +126,7 @@ public class GameController {
     }
 	@FXML
     private void keyPressed(KeyEvent evt) throws IOException {
-		String s = "CMD:"+idJoueur+""+evt.getCode();
+		String s = "CMD:"+this.idJoueur+""+evt.getCode();
 		System.out.println(s);
 		sendCmd(s);
 	}
