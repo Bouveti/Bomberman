@@ -101,10 +101,9 @@ public class Game implements Serializable{
 		return this.gameStarted;
 	}
 	
-	public void movePlayer(int id, String move) {
-		this.playerList.get(id).moveCharact(map,move);
-		System.out.println(this.playerList.get(id).getCharact().getX());
-		System.out.println(this.playerList.get(id).getCharact().getY());
+	public void doCmd(int id, String move) {
+		if (move.compareTo("SPACE") == 0) this.map.setBomb(this.playerList.get(id).getCharact().getX(), this.playerList.get(id).getCharact().getY());
+		else this.playerList.get(id).moveCharact(map,move);
 	}
 	
 	public void setGameStarted(boolean b) {

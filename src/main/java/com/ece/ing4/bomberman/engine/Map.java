@@ -69,6 +69,10 @@ public class Map implements Serializable{
 		this.table[x][y] = val;
 	}
 	
+	public void setBomb(int x, int y){
+		this.table[x][y] = 'b';
+	}
+	
 	public char[] getLine(int x){
 		return this.table[x];
 	}

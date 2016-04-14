@@ -86,8 +86,6 @@ public class Player implements Serializable {
 				this.character.setX(this.character.getX() + 1);
 			} 
 			break;
-		case "SPACE":
-			break;
 		}
 
 	}

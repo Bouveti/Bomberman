@@ -108,7 +108,7 @@ public class ThreadServer implements Runnable {
 				this.mainGame.setGameStarted(true);
 				placePlayer();
 			}else if(sb.toString().substring(0, 4).compareTo("CMD:") == 0) {
-				this.mainGame.movePlayer(Integer.parseInt(sb.toString().substring(4,5)), sb.toString().substring(5, sb.toString().length()));
+				this.mainGame.doCmd(Integer.parseInt(sb.toString().substring(4,5)), sb.toString().substring(5, sb.toString().length()));
 			}else {
 				this.mainGame.getPlayers().add(new Player(sb.toString()));
 			}
