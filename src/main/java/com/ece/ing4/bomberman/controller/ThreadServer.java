@@ -67,7 +67,7 @@ public class ThreadServer implements Runnable {
 					key = iter.next();
 					iter.remove();
 					if (key.isAcceptable())
-						this.handleAccept(key);
+						if(mainGame.getPlayers().size()<4) this.handleAccept(key);
 					if (key.isReadable())
 						this.handleRead(key);
 				}
