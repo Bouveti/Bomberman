@@ -64,7 +64,6 @@ public class GameController {
 		timer.start();
 		Map myMap = theGame.getMap();
 		gPane.getChildren().clear();
-<<<<<<< HEAD
 		for(int i=0;i<myMap.getHeight();i++) {
 			for(int j=0;j<myMap.getWidth();j++){
 				Label caseMap = new Label();			
@@ -78,27 +77,12 @@ public class GameController {
 					caseMap.setStyle("-fx-alignment: center;-fx-font-size: 18pt;");
 				}
 				else if(s.compareTo(" ")==0) caseMap.setStyle("-fx-background-color: white;");
-=======
-		for (int i = 0; i < myMap.getHeight(); i++) {
-			for (int j = 0; j < myMap.getWidth(); j++) {
-				Label caseMap = new Label();
-				String s = "" + myMap.getCell(i, j);
-				if (s.compareTo("w") == 0)
-					caseMap.setStyle("-fx-background-color: black;");
-				else if (s.compareTo("d") == 0)
-					caseMap.setStyle("-fx-border-color:black;-fx-background-color: grey;");
-				else if (s.compareTo("s") == 0)
-					caseMap.setStyle("-fx-background-color: white;-fx-alignment: center;");
-				else if (s.compareTo(" ") == 0)
-					caseMap.setStyle("-fx-background-color: white;");
->>>>>>> origin/master
 				caseMap.setMinHeight(35);
 				caseMap.setMinWidth(35);
 				
 				gPane.add(caseMap, j, i);
 			}
 		}
-<<<<<<< HEAD
 		for(int k=0;k<theGame.getPlayers().size();k++) {
 			int x = theGame.getPlayers().get(k).getCharact().getX();
 			int y = theGame.getPlayers().get(k).getCharact().getY();
@@ -108,21 +92,6 @@ public class GameController {
 			if(k==2) node.setStyle("-fx-border-color:black;-fx-background-color: blue;-fx-alignment: center;");
 			if(k==3) node.setStyle("-fx-border-color:black;-fx-background-color: yellow;-fx-alignment: center;");
 			node.setText("P"+k);
-=======
-		System.out.println("SIZE : " + theGame.getPlayers().size());
-		for (int k = 0; k < theGame.getPlayers().size(); k++) {
-			int x = theGame.getPlayers().get(k).getCharact().getX();
-			int y = theGame.getPlayers().get(k).getCharact().getY();
-			Label node = (Label) getNodeByRowColumnIndex(x, y, gPane);
-			if (k == 0)
-				node.setStyle("-fx-border-color:black;-fx-background-color: red;");
-			if (k == 1)
-				node.setStyle("-fx-border-color:black;-fx-background-color: green;");
-			if (k == 2)
-				node.setStyle("-fx-border-color:black;-fx-background-color: blue;");
-			if (k == 3)
-				node.setStyle("-fx-border-color:black;-fx-background-color: yellow;");
-			node.setText("P" + k);
 		}
 	}
 
@@ -134,7 +103,6 @@ public class GameController {
 				result = node;
 				break;
 			}
->>>>>>> origin/master
 		}
 		return result;
 	}

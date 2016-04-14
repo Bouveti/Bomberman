@@ -72,17 +72,11 @@ public class Map implements Serializable {
 	public void setCell(int x, int y, char val) {
 		this.table[x][y] = val;
 	}
-<<<<<<< HEAD
-	
 	public void setBomb(int x, int y){
 		this.table[x][y] = 'b';
 	}
 	
 	public char[] getLine(int x){
-=======
-
-	public char[] getLine(int x) {
->>>>>>> origin/master
 		return this.table[x];
 	}
 

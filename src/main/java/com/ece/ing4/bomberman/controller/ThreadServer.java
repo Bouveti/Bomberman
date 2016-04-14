@@ -80,16 +80,11 @@ public class ThreadServer implements Runnable {
 						Integer.parseInt(sb.toString().substring(sb.toString().length() - 1, sb.toString().length())));
 				this.mainGame.setGameStarted(true);
 				placePlayer();
-<<<<<<< HEAD
+
 			}else if(sb.toString().substring(0, 4).compareTo("CMD:") == 0) {
 				this.mainGame.doCmd(Integer.parseInt(sb.toString().substring(4,5)), sb.toString().substring(5, sb.toString().length()));
 			}else {
-=======
-			} else if (sb.toString().substring(0, 4).compareTo("CMD:") == 0) {
-				this.mainGame.movePlayer(Integer.parseInt(sb.toString().substring(4, 5)),
-						sb.toString().substring(5, sb.toString().length()));
-			} else {
->>>>>>> origin/master
+
 				this.mainGame.getPlayers().add(new Player(sb.toString()));
 			}
 			buf.clear();
