@@ -1,51 +1,25 @@
 package com.ece.ing4.bomberman.controller;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import com.ece.ing4.bomberman.engine.Game;
-import com.ece.ing4.bomberman.engine.Player;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
 public class ThreadClient implements Runnable {
 
 	private Socket socket;
 	private String name = "client";
 	private int idJoueur = -1;
-	private Game game;
-	private BufferedReader in;
-	private PrintWriter out;
 	private String host;
 	private int port;
 	private boolean receiving = true;
@@ -58,7 +32,8 @@ public class ThreadClient implements Runnable {
 
 	public ThreadClient(String IPAddress, int port, ObservableList<String> observableList,
 			BlockingQueue<String> messageQueue, BlockingQueue<String> portQueue, BlockingQueue<String> cmdQueue,
-			BlockingQueue<Game> gameQueue,BlockingQueue<Integer> idQueue, String playerName) throws IOException, InterruptedException {
+			BlockingQueue<Game> gameQueue, BlockingQueue<Integer> idQueue, String playerName)
+					throws IOException, InterruptedException {
 		this.host = IPAddress;
 		this.observableList = observableList;
 		this.port = port;
@@ -76,7 +51,7 @@ public class ThreadClient implements Runnable {
 	protected void disconnect() {
 		final LongProperty lastUpdate = new SimpleLongProperty();
 		final long minUpdateInterval = 0;
-		
+
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
@@ -90,7 +65,7 @@ public class ThreadClient implements Runnable {
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
-					
+
 						if (message.substring(0, 3).compareTo("map") == 0)
 							try {
 								writeToServer(message);
@@ -102,7 +77,6 @@ public class ThreadClient implements Runnable {
 				}
 			}
 		};
-
 		timer.start();
 	}
 
@@ -114,18 +88,18 @@ public class ThreadClient implements Runnable {
 				Game mainGame = (Game) ois.readObject();
 				final String nbJoueurs = mainGame.getPlayers().size() + " / 4";
 				final String portAdd = this.port + "";
-				if(idJoueur == -1) {
+				if (idJoueur == -1) {
 					this.idJoueur = mainGame.getPlayers().size();
 					idQueue.put(idJoueur);
 				}
 
-				System.out.println("My ID : "+idJoueur);
-				
-				if(!mainGame.getGameStarted()) {
+				System.out.println("My ID : " + idJoueur);
+
+				if (!mainGame.getGameStarted()) {
 					messageQueue.put(nbJoueurs);
 					portQueue.put(portAdd);
 				}
-				
+
 				gameQueue.put(mainGame);
 				Platform.runLater(() -> setListViewObs(mainGame));
 
@@ -143,7 +117,7 @@ public class ThreadClient implements Runnable {
 	}
 
 	protected void writeToServer(String s) throws IOException {
-		System.out.println("Thread CLIENT : "+s);
+		System.out.println("Thread CLIENT : " + s);
 		OutputStream os = socket.getOutputStream();
 		OutputStreamWriter osw = new OutputStreamWriter(os);
 		BufferedWriter bw = new BufferedWriter(osw);

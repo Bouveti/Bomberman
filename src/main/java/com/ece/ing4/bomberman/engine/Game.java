@@ -1,7 +1,6 @@
 package com.ece.ing4.bomberman.engine;
 
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class Game implements Serializable{
