@@ -68,33 +68,25 @@ public class Player implements Serializable {
 		// TODO Auto-generated method stub
 		System.out.println("BOUGER : "+move);
 		switch (move) {
-		case "W":
-			if (map.getCell(this.character.getX(), (this.character.getY() - 1)) == ' ') {
-				System.out.println(this.character.getX());
-				System.out.println(this.character.getY());
-				this.character.setX(this.character.getY() - 1);
-			} else System.out.println("JE PEUX PAS "+map.getCell(this.character.getX(), (this.character.getY() - 1)));
-			break;
-		case "S":
-			if (map.getCell(this.character.getX(), (this.character.getY() + 1)) == ' ') {
-				System.out.println(this.character.getX());
-				System.out.println(this.character.getY());
-				this.character.setX(this.character.getY() + 1);
-			}
-			break;
 		case "A":
-			if (map.getCell(this.character.getX() - 1, (this.character.getY())) == ' ') {
-				System.out.println(this.character.getX());
-				System.out.println(this.character.getY());
-				this.character.setY(this.character.getX() - 1);
-			}
+			if (map.getCell(this.character.getX(), (this.character.getY() - 1)) == ' ') {
+				this.character.setY(this.character.getY() - 1);
+			} else System.out.println("pk ? "+map.getCell(this.character.getX(), (this.character.getY()- 1)));
 			break;
 		case "D":
+			if (map.getCell(this.character.getX(), (this.character.getY() + 1)) == ' ') {
+				this.character.setY(this.character.getY() + 1);
+			} else System.out.println("pk ? "+map.getCell(this.character.getX(), (this.character.getY() + 1)));
+			break;
+		case "W":
+			if (map.getCell(this.character.getX() - 1, (this.character.getY())) == ' ') {
+				this.character.setX(this.character.getX() - 1);
+			} else System.out.println("pk ? "+map.getCell(this.character.getX() - 1, (this.character.getY())));
+			break;
+		case "S":
 			if (map.getCell(this.character.getX() + 1, (this.character.getY())) == ' ') {
-				System.out.println(this.character.getX());
-				System.out.println(this.character.getY());
-				this.character.setY(this.character.getX() + 1);
-			}
+				this.character.setX(this.character.getX() + 1);
+			} else System.out.println("pk ? "+map.getCell(this.character.getX() + 1, (this.character.getY())));
 			break;
 		case "SPACE":
 			break;

@@ -87,7 +87,5 @@ public class Map implements Serializable{
 				if (this.getCell(i, j) == 's') this.setCell(i, j, ' ');
 			}
 		}
-		// TODO Auto-generated method stub
-		
 	}
 }

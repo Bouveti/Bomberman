@@ -89,7 +89,7 @@ public class GameController {
 		for(int i=0;i<myMap.getHeight();i++) {
 			for(int j=0;j<myMap.getWidth();j++){
 				Label caseMap = new Label();			
-				String s = ""+myMap.getCell(i, j);
+				String s = ""+myMap.getCell(j, i);
 				if(s.compareTo("w")==0) caseMap.setStyle("-fx-background-color: black;");	
 				else if(s.compareTo("d")==0) caseMap.setStyle("-fx-border-color:black;-fx-background-color: grey;");
 				else if(s.compareTo("s")==0) caseMap.setStyle("-fx-background-color: white;-fx-alignment: center;");
@@ -97,7 +97,7 @@ public class GameController {
 				caseMap.setMinHeight(35);
 				caseMap.setMinWidth(35);
 				caseMap.setText("");
-				gPane.add(caseMap, i, j);
+				gPane.add(caseMap, j, i);
 			}
 		}
 		System.out.println("SIZE : "+theGame.getPlayers().size());
@@ -106,7 +106,10 @@ public class GameController {
 			int y = theGame.getPlayers().get(k).getCharact().getY();
 			System.out.println("JE DESSINE EN : "+x+"/"+y);
 			Label node = (Label) getNodeByRowColumnIndex(x,y,gPane);
-			node.setStyle("-fx-border-color:black;-fx-background-color: green;");
+			if(k==0) node.setStyle("-fx-border-color:black;-fx-background-color: red;");
+			if(k==1) node.setStyle("-fx-border-color:black;-fx-background-color: green;");
+			if(k==2) node.setStyle("-fx-border-color:black;-fx-background-color: blue;");
+			if(k==3) node.setStyle("-fx-border-color:black;-fx-background-color: yellow;");
 			node.setText("P"+k);
 		}
 	}
