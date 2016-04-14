@@ -89,7 +89,7 @@ public class GameController {
 		for(int i=0;i<myMap.getHeight();i++) {
 			for(int j=0;j<myMap.getWidth();j++){
 				Label caseMap = new Label();			
-				String s = ""+myMap.getCell(j, i);
+				String s = ""+myMap.getCell(i, j);
 				if(s.compareTo("w")==0) caseMap.setStyle("-fx-background-color: black;");	
 				else if(s.compareTo("d")==0) caseMap.setStyle("-fx-border-color:black;-fx-background-color: grey;");
 				else if(s.compareTo("s")==0) caseMap.setStyle("-fx-background-color: white;-fx-alignment: center;");
@@ -127,8 +127,8 @@ public class GameController {
     }
 	@FXML
     private void keyPressed(KeyEvent evt) throws IOException {
-		System.out.println("TEST EVENT APPUYER");
 		String s = "CMD:"+idJoueur+""+evt.getCode();
+		System.out.println(s);
 		sendCmd(s);
 	}
 		
