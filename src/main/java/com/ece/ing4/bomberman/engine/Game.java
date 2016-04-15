@@ -14,11 +14,14 @@ public class Game implements Serializable{
 	 */
 
 	private ArrayList<Player> playerList;
+	private ArrayList<Bomb> listBomb;
 	private Map map;
 	private boolean gameStarted = false;
 	
+	
 	public Game () {
 		this.playerList = new ArrayList<Player>();
+		this.listBomb = new ArrayList<Bomb>();
 	}
 	
 	public void setMap(int size){
@@ -101,11 +104,20 @@ public class Game implements Serializable{
 	}
 	
 	public void doCmd(int id, String move) {
-		if (move.compareTo("SPACE") == 0) this.map.setBomb(this.playerList.get(id).getCharact().getX(), this.playerList.get(id).getCharact().getY());
-		else this.playerList.get(id).moveCharact(map,move);
+		if (move.compareTo("SPACE") == 0) setBomb(this.playerList.get(id).getCharact().getX(), this.playerList.get(id).getCharact().getY());
+		else this.playerList.get(id).moveCharact(map,listBomb,move);
 	}
 	
 	public void setGameStarted(boolean b) {
 		this.gameStarted = b;
+	}
+
+	public ArrayList<Bomb> getListBomb() {
+		return listBomb;
+	}
+
+	public void setBomb(int x, int y) {
+		Bomb newBomb = new Bomb(3, x, y);
+		this.listBomb.add(newBomb);
 	}
 }

@@ -1,6 +1,7 @@
 package com.ece.ing4.bomberman.engine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Player implements Serializable {
 
@@ -15,6 +16,7 @@ public class Player implements Serializable {
 
 	public Player(String s) {
 		this.name = s;
+		this.alive = true;
 	}
 
 	public String getName() {
@@ -64,34 +66,47 @@ public class Player implements Serializable {
 		this.alive = alive;
 	}
 
-	public void moveCharact(Map map, String move) {
+	public void moveCharact(Map map, ArrayList<Bomb> listBomb, String move) {
+		int x = this.character.getX();
+		int y = this.character.getY();
 		switch (move) {
 		case "A":
 		case "LEFT":
-			if (map.getCell(this.character.getX(), (this.character.getY() - 1)) == ' ') {
-				this.character.setY(this.character.getY() - 1);
+			if (map.getCell(x, (y - 1)) == ' ' &&
+			checkBomb(listBomb, x ,y-1)) {
+				this.character.setY(y - 1);
 			} 
 			break;
 		case "D":
 		case "RIGHT":
-			if (map.getCell(this.character.getX(), (this.character.getY() + 1)) == ' ') {
-				this.character.setY(this.character.getY() + 1);
+			if (map.getCell(x, (y + 1)) == ' ' &&
+					checkBomb(listBomb, x ,y+1)) {
+				this.character.setY(y + 1);
 			} 
 			break;
 		case "W":
 		case "UP":
-			if (map.getCell(this.character.getX() - 1, (this.character.getY())) == ' ') {
-				this.character.setX(this.character.getX() - 1);
+			if (map.getCell(x - 1, (y)) == ' ' &&
+					checkBomb(listBomb, x-1 ,y)) {
+				this.character.setX(x - 1);
 			} 
 			break;
 		case "S":
 		case "DOWN":
-			if (map.getCell(this.character.getX() + 1, (this.character.getY())) == ' ') {
-				this.character.setX(this.character.getX() + 1);
+			if (map.getCell(x + 1, (y)) == ' ' &&
+					checkBomb(listBomb, x+1 ,y)) {
+				this.character.setX(x + 1);
 			} 
 			break;
 		}
 
+	}
+	
+	private boolean checkBomb(ArrayList<Bomb> lb, int x, int y) {
+		for (int k = 0 ; k<lb.size();k++) {
+			if (lb.get(k).getX() == x && lb.get(k).getY() == y) return false;
+		}
+		return true;
 	}
 
 	public int getId() {

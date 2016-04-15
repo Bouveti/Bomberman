@@ -64,34 +64,52 @@ public class GameController {
 		timer.start();
 		Map myMap = theGame.getMap();
 		gPane.getChildren().clear();
-		for(int i=0;i<myMap.getHeight();i++) {
-			for(int j=0;j<myMap.getWidth();j++){
-				Label caseMap = new Label();			
-				String s = ""+myMap.getCell(i, j);
+		for (int i = 0; i < myMap.getHeight(); i++) {
+			for (int j = 0; j < myMap.getWidth(); j++) {
+				Label caseMap = new Label();
+				String s = "" + myMap.getCell(i, j);
 				caseMap.setText("");
-				if(s.compareTo("w")==0) caseMap.setStyle("-fx-background-color: black;");	
-				else if(s.compareTo("d")==0) caseMap.setStyle("-fx-border-color:black;-fx-background-color: grey;");
-				else if(s.compareTo("s")==0) caseMap.setStyle("-fx-background-color: white;-fx-alignment: center;");
-				else if(s.compareTo("b")==0){
-					caseMap.setText("Ò");
-					caseMap.setStyle("-fx-alignment: center;-fx-font-size: 18pt;");
-				}
-				else if(s.compareTo(" ")==0) caseMap.setStyle("-fx-background-color: white;");
+				if (s.compareTo("w") == 0)
+					caseMap.setStyle("-fx-background-color: black;");
+				else if (s.compareTo("d") == 0)
+					caseMap.setStyle("-fx-border-color:black;-fx-background-color: grey;");
+				else if (s.compareTo("s") == 0)
+					caseMap.setStyle("-fx-background-color: white;-fx-alignment: center;");
+				else if (s.compareTo(" ") == 0)
+					caseMap.setStyle("-fx-background-color: white;");
 				caseMap.setMinHeight(35);
 				caseMap.setMinWidth(35);
-				
+
 				gPane.add(caseMap, j, i);
 			}
 		}
-		for(int k=0;k<theGame.getPlayers().size();k++) {
-			int x = theGame.getPlayers().get(k).getCharact().getX();
-			int y = theGame.getPlayers().get(k).getCharact().getY();
-			Label node = (Label) getNodeByRowColumnIndex(x,y,gPane);
-			if(k==0) node.setStyle("-fx-border-color:black;-fx-background-color: red;-fx-alignment: center;");
-			if(k==1) node.setStyle("-fx-border-color:black;-fx-background-color: green;-fx-alignment: center;");
-			if(k==2) node.setStyle("-fx-border-color:black;-fx-background-color: blue;-fx-alignment: center;");
-			if(k==3) node.setStyle("-fx-border-color:black;-fx-background-color: yellow;-fx-alignment: center;");
-			node.setText("P"+k);
+		for (int b = 0; b<theGame.getListBomb().size();b++)
+		{
+			int x = theGame.getListBomb().get(b).getX();
+			int y = theGame.getListBomb().get(b).getY();
+			Label bomb = new Label();
+			bomb.setText("Ò");
+			bomb.setStyle("-fx-alignment: center;-fx-font-size: 18pt;");
+			bomb.setMinHeight(35);
+			bomb.setMinWidth(35);
+			gPane.add(bomb, y, x);
+			
+		}
+		for (int k = 0; k < theGame.getPlayers().size(); k++) {
+			if (theGame.getPlayers().get(k).getAlive()) {
+				int x = theGame.getPlayers().get(k).getCharact().getX();
+				int y = theGame.getPlayers().get(k).getCharact().getY();
+				Label node = (Label) getNodeByRowColumnIndex(x, y, gPane);
+				if (k == 0)
+					node.setStyle("-fx-border-color:black;-fx-background-color: red;-fx-alignment: center;");
+				if (k == 1)
+					node.setStyle("-fx-border-color:black;-fx-background-color: green;-fx-alignment: center;");
+				if (k == 2)
+					node.setStyle("-fx-border-color:black;-fx-background-color: blue;-fx-alignment: center;");
+				if (k == 3)
+					node.setStyle("-fx-border-color:black;-fx-background-color: yellow;-fx-alignment: center;");
+				node.setText("P" + k);
+			}
 		}
 	}
 
