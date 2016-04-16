@@ -1,7 +1,12 @@
 package com.ece.ing4.bomberman.engine;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import com.ece.ing4.bomberman.controller.ThreadServer;
 
 public class Game implements Serializable{
 
@@ -18,11 +23,11 @@ public class Game implements Serializable{
 	private Map map;
 	private boolean gameStarted = false;
 	
-	
 	public Game () {
 		this.playerList = new ArrayList<Player>();
 		this.listBomb = new ArrayList<Bomb>();
 	}
+	
 	
 	public void setMap(int size){
 		
@@ -116,8 +121,30 @@ public class Game implements Serializable{
 		return listBomb;
 	}
 
+	
+	
 	public void setBomb(int x, int y) {
 		Bomb newBomb = new Bomb(3, x, y);
 		this.listBomb.add(newBomb);
+		
 	}
+	
+	public void explode(int index) {
+		Bomb b = this.getListBomb().get(index);
+		int x = b.getX();
+		int y = b.getY();
+		this.getListBomb().remove(index);	
+		for(int i = 0; i< this.playerList.size();i++) {
+			if (tryPlayerBomb(i,x,y)) {
+				
+			}
+				
+		}
+	}
+	
+	public boolean tryPlayerBomb(int i, int x, int y){
+		return false;
+	}
+
+	
 }

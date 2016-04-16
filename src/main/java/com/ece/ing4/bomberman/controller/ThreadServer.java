@@ -10,10 +10,18 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import com.ece.ing4.bomberman.engine.Bomb;
 import com.ece.ing4.bomberman.engine.Game;
 import com.ece.ing4.bomberman.engine.Player;
 
-public class ThreadServer implements Runnable {
+import javafx.animation.AnimationTimer;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
+
+public class ThreadServer implements Runnable{
 	private final int port;
 	private ServerSocketChannel ssc;
 	private Selector selector;
@@ -80,9 +88,12 @@ public class ThreadServer implements Runnable {
 						Integer.parseInt(sb.toString().substring(sb.toString().length() - 1, sb.toString().length())));
 				this.mainGame.setGameStarted(true);
 				placePlayer();
-
 			}else if(sb.toString().substring(0, 4).compareTo("CMD:") == 0) {
 				this.mainGame.doCmd(Integer.parseInt(sb.toString().substring(4,5)), sb.toString().substring(5, sb.toString().length()));
+				if (sb.toString().substring(5, sb.toString().length()).compareTo("SPACE")==0){
+					Timer timer = new Timer();
+				    timer.schedule(new MyTimerTask( mainGame.getListBomb().size()-1 ), 3000);
+				}
 			}else {
 
 				this.mainGame.getPlayers().add(new Player(sb.toString()));
@@ -98,7 +109,7 @@ public class ThreadServer implements Runnable {
 		this.mainGame.getMap().removeSpawn();
 	}
 
-	private void broadcast() throws IOException {
+	public void broadcast() throws IOException {
 		ByteBuffer writeBuffer = ByteBuffer.wrap(getBytes(mainGame));
 
 		for (SelectionKey key : selector.keys()) {
@@ -120,4 +131,36 @@ public class ThreadServer implements Runnable {
 		byte[] data = bos.toByteArray();
 		return data;
 	}
+	
+	class MyTimerTask extends TimerTask  {
+	     int index;
+
+	     public MyTimerTask(int param) {
+	         this.index = param;
+	     }
+
+	     @Override
+	     public void run() {
+	    	 System.out.println("boomm + index :"+index);
+	    	 explodeBombe(index);
+	    	 this.cancel();
+	     }
+	}
+	
+	public void explodeBombe(int index) {
+		// TODO Auto-generated method stub
+		mainGame.explode(index);
+		Bomb b = mainGame.getListBomb().get(index);
+		int x = b.getX();
+		int y = b.getY();
+		this.mainGame.getListBomb().remove(index);	
+		try {
+			broadcast();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
