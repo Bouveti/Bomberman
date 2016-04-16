@@ -11,13 +11,15 @@ public class Bomb implements Serializable{
 	private int count;
 	private int x;
 	private int y;
+	private int id;
 	
 	
-	public Bomb(int count, int x, int y) {
+	public Bomb(int count, int x, int y, int id) {
 		super();
 		this.setCount(count);
 		this.setX(x);
 		this.setY(y);
+		this.setId(id);
 	}
 
 
@@ -49,6 +51,17 @@ public class Bomb implements Serializable{
 	public void setCount(int count) {
 		this.count = count;
 	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	
 	
 	

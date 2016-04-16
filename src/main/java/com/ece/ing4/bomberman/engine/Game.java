@@ -124,25 +124,42 @@ public class Game implements Serializable{
 	
 	
 	public void setBomb(int x, int y) {
-		Bomb newBomb = new Bomb(3, x, y);
+		Bomb newBomb = new Bomb(3, x, y, listBomb.size());
 		this.listBomb.add(newBomb);
 		
 	}
 	
 	public void explode(int index) {
-		Bomb b = this.getListBomb().get(index);
+		Bomb b = removeById(index);
 		int x = b.getX();
 		int y = b.getY();
-		this.getListBomb().remove(index);	
 		for(int i = 0; i< this.playerList.size();i++) {
-			if (tryPlayerBomb(i,x,y)) {
-				
+			if (tryPlayerWallBomb(i,x,y)) {
+				this.playerList.get(i).setAlive(false);
 			}
 				
 		}
 	}
 	
-	public boolean tryPlayerBomb(int i, int x, int y){
+	private Bomb removeById(int index) {
+		// TODO Auto-generated method stub
+		Bomb b = null;
+		for(int i = 0;i<listBomb.size();i++) {
+			if(index == listBomb.get(i).getId()) {
+				b= listBomb.get(i);
+				listBomb.remove(i);
+			}
+		}
+		return b;
+	}
+
+
+	public boolean tryPlayerWallBomb(int i, int x, int y){
+		//si il y a un joueur en x y, return true
+		//si il y a un joueur en x-1 return true
+		//...
+		//rayon de 3
+		
 		return false;
 	}
 

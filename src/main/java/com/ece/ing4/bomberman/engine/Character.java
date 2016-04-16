@@ -59,9 +59,9 @@ public class Character implements Serializable{
 	public ArrayList<Bomb> getBombLaid() {
 		return bombLaid;
 	}
-	public void layBomb(int x, int y) {
-		this.bombLaid.add(new Bomb(x,y,this.countMax));
-	}
+	//public void layBomb(int x, int y) {
+	//	this.bombLaid.add(new Bomb(x,y,this.countMax));
+	//}
 	public int getX() {
 		return x;
 	}

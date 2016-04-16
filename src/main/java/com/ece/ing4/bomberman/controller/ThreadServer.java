@@ -150,10 +150,7 @@ public class ThreadServer implements Runnable{
 	public void explodeBombe(int index) {
 		// TODO Auto-generated method stub
 		mainGame.explode(index);
-		Bomb b = mainGame.getListBomb().get(index);
-		int x = b.getX();
-		int y = b.getY();
-		this.mainGame.getListBomb().remove(index);	
+		
 		try {
 			broadcast();
 		} catch (IOException e) {
