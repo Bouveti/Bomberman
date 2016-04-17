@@ -133,6 +133,6 @@ public class GameController {
 	}
 
 	private void sendCmd(String result) throws IOException {
-		this.client.writeToServer(result);
+		if(this.theGame.getPlayers().get(this.idJoueur).getAlive())this.client.writeToServer(result);
 	}
 }

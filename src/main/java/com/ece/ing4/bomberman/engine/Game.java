@@ -78,29 +78,24 @@ public class Game implements Serializable{
 		return res;
 	}
 	
-	public int play(){
+	public int winner(){
 		
 		int win = -1;
 		
+		int alive = 0;
+		int num = 10;
+			
 		for(int i=0; i<this.playerList.size();i++){
-			this.playerList.get(i).spawn(i, this.map.getHeight());
+			if(this.playerList.get(i).getAlive()){
+				alive++;
+				num = i;
+			}
+		}
+			
+		if(alive<2){
+			win = num;
 		}
 		
-		while(win<0){
-			int alive = 0;
-			int num = 10;
-			
-			for(int i=0; i<this.playerList.size();i++){
-				if(this.playerList.get(i).getAlive()){
-					alive++;
-					num = i;
-				}
-			}
-			
-			if(alive<2){
-				win = num;
-			}
-		}
 		return win;
 	}
 
@@ -138,8 +133,7 @@ public class Game implements Serializable{
 			Character charac = player.getCharact();
 			if (tryPlayerBomb(charac,x,y)) {
 				player.setAlive(false);
-			}
-				
+			}		
 		}
 	}
 	
@@ -186,7 +180,6 @@ public class Game implements Serializable{
 		boolean res = false;
 		
 		if((x < this.map.getHeight())&&(x > 0)&&(y < this.map.getHeight())&&(x > 0))res = true;
-		
 		
 		return res;
 	}
