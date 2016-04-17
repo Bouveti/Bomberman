@@ -32,7 +32,6 @@ public class GameController {
 	private int idJoueur;
 	private AnimationTimer timer;
 
-	private boolean displayEndGame = false;
 	private ThreadClient client;
 	BlockingQueue<Game> gameQueue = new ArrayBlockingQueue<>(1);
 
@@ -123,7 +122,6 @@ public class GameController {
 			}
 		}
 		
-			this.displayEndGame = true;
 			if (!theGame.getPlayers().get(idJoueur).getAlive()) {
 				Platform.runLater(new Runnable() {
 
@@ -134,14 +132,10 @@ public class GameController {
 						alert.setHeaderText(
 								"Vous avez malheureusement perdu dans cette partie de Bomberman en ligne. ");
 						String s = "";
-						if (idJoueur == 0)
-							s = "La partie est terminée.";
-						else
-							s = "Merci d'avoir joué, et à bientôt !";
+						s = "La partie est terminée. Merci d'avoir joué, et à bientôt !";
+						alert.setContentText(s);
 						ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
-						if (idJoueur == 0)
-							alert.getButtonTypes().setAll(buttonTypeCancel);
-						else
+						
 							alert.getButtonTypes().setAll(buttonTypeCancel);
 
 						Optional<ButtonType> result = alert.showAndWait();
@@ -177,18 +171,12 @@ public class GameController {
 						alert.setHeaderText("Vous avez gagné cette partie de Bomberman en ligne.");
 						alert.setTitle("Gagné !");
 						String s = "";
-						if (idJoueur == 0)
-							s = "La partie est terminée.";
-						else
-							s = "Merci d'avoir joué, et à bientôt !";
+						s = "La partie est terminée. Merci d'avoir joué, et à bientôt !";
 
 						alert.setContentText(s);
 						ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
 
-						if (idJoueur == 0)
-							alert.getButtonTypes().setAll(buttonTypeCancel);
-						else
-							alert.getButtonTypes().setAll(buttonTypeCancel);
+						alert.getButtonTypes().setAll(buttonTypeCancel);
 
 						Optional<ButtonType> result = alert.showAndWait();
 						if (result.get() == buttonTypeCancel) {

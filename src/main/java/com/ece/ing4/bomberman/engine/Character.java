@@ -20,9 +20,6 @@ public class Character implements Serializable{
 	
 	private int speed;
 	private int life;
-	private int blast;
-	private int countMax;
-
 	public Character(String name, int x, int y) {
 		super();
 		this.name = name;
@@ -33,9 +30,7 @@ public class Character implements Serializable{
 		this.score = 0;
 		this.maxBomb = 1;
 		this.life = 1;
-		this.blast = 1;
 		this.speed = 1;
-		this.countMax = 1;
 	}
 
 	public String getName() {

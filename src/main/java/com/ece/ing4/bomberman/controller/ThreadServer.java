@@ -13,13 +13,8 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.ece.ing4.bomberman.engine.Bomb;
 import com.ece.ing4.bomberman.engine.Game;
 import com.ece.ing4.bomberman.engine.Player;
-
-import javafx.animation.AnimationTimer;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
 
 public class ThreadServer implements Runnable{
 	private final int port;

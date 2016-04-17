@@ -1,12 +1,7 @@
 package com.ece.ing4.bomberman.engine;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.ece.ing4.bomberman.controller.ThreadServer;
 
 public class Game implements Serializable{
 
