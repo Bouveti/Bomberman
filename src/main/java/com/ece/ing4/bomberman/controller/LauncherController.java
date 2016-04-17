@@ -223,6 +223,7 @@ public class LauncherController {
 	private void cancelGame() throws Exception {
 		cmdQueue = client.getQueue();
 		cmdQueue.put("deco");
+		if(idJoueur==0) client.writeToServer("CMD:0SERVERQUIT");
 
 		Stage stage;
 		Parent root;
