@@ -89,13 +89,18 @@ public class ThreadServer implements Runnable{
 				this.mainGame.setGameStarted(true);
 				placePlayer();
 			}else if(sb.toString().substring(0, 4).compareTo("CMD:") == 0) {
+				System.out.println(sb.toString().substring(5, sb.toString().length()));
+				if(sb.toString().substring(5, sb.toString().length()).compareTo("SERVERQUIT") == 0) {
+					System.out.println("CLOSE SERVER");
+					ssc.close();
+				} else {
 				this.mainGame.doCmd(Integer.parseInt(sb.toString().substring(4,5)), sb.toString().substring(5, sb.toString().length()));
 				if (sb.toString().substring(5, sb.toString().length()).compareTo("SPACE")==0){
 					Timer timer = new Timer();
 				    timer.schedule(new MyTimerTask( mainGame.getListBomb().size()-1 ), 3000);
 				}
-			}else {
-
+				}
+			} else {
 				this.mainGame.getPlayers().add(new Player(sb.toString()));
 			}
 			buf.clear();

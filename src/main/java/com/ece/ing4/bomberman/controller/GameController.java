@@ -30,7 +30,9 @@ public class GameController {
 
 	private Game theGame;
 	private int idJoueur;
+	private AnimationTimer timer;
 
+	private boolean displayEndGame = false;
 	private ThreadClient client;
 	BlockingQueue<Game> gameQueue = new ArrayBlockingQueue<>(1);
 
@@ -51,7 +53,7 @@ public class GameController {
 		final LongProperty lastUpdate = new SimpleLongProperty();
 		final long minUpdateInterval = 0;
 
-		AnimationTimer timer = new AnimationTimer() {
+		timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 				if (now - lastUpdate.get() > minUpdateInterval) {
@@ -93,8 +95,7 @@ public class GameController {
 				gPane.add(caseMap, j, i);
 			}
 		}
-		for (int b = 0; b<theGame.getListBomb().size();b++)
-		{
+		for (int b = 0; b < theGame.getListBomb().size(); b++) {
 			int x = theGame.getListBomb().get(b).getX();
 			int y = theGame.getListBomb().get(b).getY();
 			Label bomb = new Label();
@@ -103,7 +104,7 @@ public class GameController {
 			bomb.setMinHeight(35);
 			bomb.setMinWidth(35);
 			gPane.add(bomb, y, x);
-			
+
 		}
 		for (int k = 0; k < theGame.getPlayers().size(); k++) {
 			if (theGame.getPlayers().get(k).getAlive()) {
@@ -121,88 +122,110 @@ public class GameController {
 				node.setText("P" + k);
 			}
 		}
-		if(!theGame.getPlayers().get(idJoueur).getAlive()) {
-			Platform.runLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Perdu !");
-					alert.setHeaderText("Vous avez malheureusement perdu dans cette partie de Bomberman en ligne. ");
-					String s;
-					if (idJoueur == 0) s = "Pour rejouer cliquez sur Rejouer.";
-					else s = "Pour rejouer, il faut attendre la fin de la partie et que le créateur clique sur Rejouer.";alert.setContentText(s);
-					ButtonType buttonTypeOne = new ButtonType("Rejouer");
-					ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
-					if (idJoueur == 0) alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
-					else alert.getButtonTypes().setAll(buttonTypeCancel);
-					
-					Optional<ButtonType> result = alert.showAndWait();
-					if (result.get() == buttonTypeOne){
-						System.out.println("Rejouer");
-					} else {
-						Stage stage = (Stage) gPane.getScene().getWindow();
-						Parent root = null;
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/Launcher.fxml"));
-						try {
-							root = (Parent) fxmlLoader.load();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						Scene scene = new Scene(root);
-						stage.setScene(scene);
-						stage.show();
-					}
-				}
-				
-			});
-		}
-		else if(theGame.getPlayers().get(idJoueur).getAlive() && checkNbAlive()==1) {
-			Platform.runLater(new Runnable() {		
-				@Override
-				public void run() {
-					Alert alert = new Alert(AlertType.CONFIRMATION);
-					alert.setHeaderText("Vous avez gagné cette partie de Bomberman en ligne.");
-					alert.setTitle("Gagné !");
-					String s = "";
-					if (idJoueur == 0) s = "Pour rejouer cliquez sur Rejouer.";
-					else s = "Pour rejouer, il faut attendre la fin de la partie et que le créateur clique sur Rejouer.";
-					
-					alert.setContentText(s);
-					ButtonType buttonTypeOne = new ButtonType("Rejouer");
-					ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
+		
+			this.displayEndGame = true;
+			if (!theGame.getPlayers().get(idJoueur).getAlive()) {
+				Platform.runLater(new Runnable() {
 
-					if (idJoueur == 0) alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
-					else alert.getButtonTypes().setAll(buttonTypeCancel);
-					
-					Optional<ButtonType> result = alert.showAndWait();
-					if (result.get() == buttonTypeOne){
-						System.out.println("Rejouer");
-					} else {
-						Stage stage = (Stage) gPane.getScene().getWindow();
-						Parent root = null;
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/Launcher.fxml"));
-						try {
-							root = (Parent) fxmlLoader.load();
-						} catch (IOException e) {
-							e.printStackTrace();
+					@Override
+					public void run() {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Perdu !");
+						alert.setHeaderText(
+								"Vous avez malheureusement perdu dans cette partie de Bomberman en ligne. ");
+						String s = "";
+						if (idJoueur == 0)
+							s = "La partie est terminée.";
+						else
+							s = "Merci d'avoir joué, et à bientôt !";
+						ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
+						if (idJoueur == 0)
+							alert.getButtonTypes().setAll(buttonTypeCancel);
+						else
+							alert.getButtonTypes().setAll(buttonTypeCancel);
+
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == buttonTypeCancel) {
+							if (idJoueur == 0) {
+								try {
+									sendCmd("SERVERQUIT");
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+							Stage stage = (Stage) gPane.getScene().getWindow();
+							Parent root = null;
+							FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/Launcher.fxml"));
+							try {
+								root = (Parent) fxmlLoader.load();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							Scene scene = new Scene(root);
+							stage.setScene(scene);
+							stage.show();
 						}
-						Scene scene = new Scene(root);
-						stage.setScene(scene);
-						stage.show();
 					}
-				}
-				
-			});
-		}
+
+				});
+			} else if (theGame.getPlayers().get(idJoueur).getAlive() && checkNbAlive() == 1) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						Alert alert = new Alert(AlertType.CONFIRMATION);
+						alert.setHeaderText("Vous avez gagné cette partie de Bomberman en ligne.");
+						alert.setTitle("Gagné !");
+						String s = "";
+						if (idJoueur == 0)
+							s = "La partie est terminée.";
+						else
+							s = "Merci d'avoir joué, et à bientôt !";
+
+						alert.setContentText(s);
+						ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
+
+						if (idJoueur == 0)
+							alert.getButtonTypes().setAll(buttonTypeCancel);
+						else
+							alert.getButtonTypes().setAll(buttonTypeCancel);
+
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == buttonTypeCancel) {
+							if (idJoueur == 0) {
+								try {
+									sendCmd("CMD:" + idJoueur + "SERVERQUIT");
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+							Stage stage = (Stage) gPane.getScene().getWindow();
+							Parent root = null;
+							FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/Launcher.fxml"));
+							try {
+								root = (Parent) fxmlLoader.load();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							Scene scene = new Scene(root);
+							stage.setScene(scene);
+							stage.show();
+						}
+					}
+
+				});
+			}
+		
 	}
-	
+
 	public int checkNbAlive() {
 		int nbJoueur = 0;
-		for(int i = 0; i < theGame.getPlayers().size();i++) 
-			if(theGame.getPlayers().get(i).getAlive())nbJoueur++;
+		for (int i = 0; i < theGame.getPlayers().size(); i++)
+			if (theGame.getPlayers().get(i).getAlive())
+				nbJoueur++;
 		return nbJoueur;
-		
+
 	}
 
 	public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
@@ -220,11 +243,16 @@ public class GameController {
 	@FXML
 	private void keyPressed(KeyEvent evt) throws IOException {
 		String s = "CMD:" + this.idJoueur + "" + evt.getCode();
-		System.out.println(s);
 		sendCmd(s);
 	}
 
 	private void sendCmd(String result) throws IOException {
-		if(this.theGame.getPlayers().get(this.idJoueur).getAlive())this.client.writeToServer(result);
+		if (idJoueur == 0 && checkNbAlive() <= 1) {
+			this.timer.stop();
+			this.client.writeToServer(result);
+		}
+
+		if (this.theGame.getPlayers().get(this.idJoueur).getAlive())
+			this.client.writeToServer(result);
 	}
 }
