@@ -2,11 +2,10 @@ package com.ece.ing4.bomberman.engine;
 
 import java.io.Serializable;
 
+//Class qui représente la bombe
+
 public class Bomb implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2652461463082087237L;
 	private int count;
 	private int x;

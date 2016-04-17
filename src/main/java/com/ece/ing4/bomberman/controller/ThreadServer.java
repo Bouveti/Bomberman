@@ -16,6 +16,8 @@ import java.util.TimerTask;
 import com.ece.ing4.bomberman.engine.Game;
 import com.ece.ing4.bomberman.engine.Player;
 
+//Créer le thread qui permet de se connecter en tant que serveur
+
 public class ThreadServer implements Runnable{
 	private final int port;
 	private ServerSocketChannel ssc;

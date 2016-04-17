@@ -3,15 +3,11 @@ package com.ece.ing4.bomberman.engine;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+//Class qui représente la partie avec la liste des joueurs, des bombes et la carte
+
 public class Game implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1074505702590621633L;
-	/**
-	 * 
-	 */
 
 	private ArrayList<Player> playerList;
 	private ArrayList<Bomb> listBomb;
@@ -133,7 +129,6 @@ public class Game implements Serializable{
 	}
 	
 	private Bomb removeById(int index) {
-		// TODO Auto-generated method stub
 		Bomb b = null;
 		for(int i = 0;i<listBomb.size();i++) {
 			if(index == listBomb.get(i).getId()) {

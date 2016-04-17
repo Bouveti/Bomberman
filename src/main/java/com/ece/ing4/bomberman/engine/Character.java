@@ -3,11 +3,12 @@ package com.ece.ing4.bomberman.engine;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+//Classe qui représente les caractéristique d'un personnage
+//Sa vitesse est de 1
+//Sa vie est de 1
+
 public class Character implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1096805370408956773L;
 	private String name;
 	private int score;

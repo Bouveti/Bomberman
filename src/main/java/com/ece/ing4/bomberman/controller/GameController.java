@@ -26,6 +26,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+// Gère l'interface de jeux
+// Envoie la commande appuié par le joueur au ThreadClient
+
 public class GameController {
 
 	private Game theGame;

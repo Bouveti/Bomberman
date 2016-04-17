@@ -2,16 +2,12 @@ package com.ece.ing4.bomberman.engine;
 
 import java.io.Serializable;
 
-public class Map implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1452888760946378186L;
-	/**
-	 * 
-	 */
+//Classe qui représente la carte avec une hauteur et une largeur variable
 
-	// Must be an odd number for Width and Height (example 9 / 9)
+public class Map implements Serializable {
+	
+	private static final long serialVersionUID = 1452888760946378186L;
+
 	private char table[][];
 	private int width;
 	private int height;

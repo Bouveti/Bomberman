@@ -24,6 +24,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+// Gère l'interface de connexion des joueurs
+
 public class LauncherController {
 	private Player player1;
 	private Game newGame;
@@ -210,7 +212,6 @@ public class LauncherController {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-
 					}
 					lastUpdate.set(now);
 				}

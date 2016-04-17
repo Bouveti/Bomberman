@@ -15,6 +15,8 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.ObservableList;
 
+//Créer le thread qui permet de se connecter en tant que client
+
 public class ThreadClient implements Runnable {
 
 	private Socket socket;

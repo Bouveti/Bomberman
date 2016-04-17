@@ -2,6 +2,7 @@ package com.ece.ing4.bomberman.view;
 
 
 import javafx.application.Platform;
+
 import javafx.application.Preloader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+// Affiche le splashscreen du jeux
 
 public class Splashscreen extends Preloader {
 
@@ -43,14 +46,12 @@ public class Splashscreen extends Preloader {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.preloaderStage = primaryStage;
-        // Set preloader scene and show stage.
         preloaderStage.setScene(scene);
         preloaderStage.show();
     }
 
     @Override
     public void handleApplicationNotification(PreloaderNotification info) {
-        // Handle application notification in this point (see MyApplication#init).
         if (info instanceof ProgressNotification) {
             progress.setText(((ProgressNotification) info).getProgress() + "%");
         }
@@ -58,7 +59,6 @@ public class Splashscreen extends Preloader {
 
     @Override
     public void handleStateChangeNotification(StateChangeNotification info) {
-        // Handle state change notifications.
         StateChangeNotification.Type type = info.getType();
         switch (type) {
             case BEFORE_START:

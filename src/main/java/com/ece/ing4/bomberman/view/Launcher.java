@@ -8,13 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+// Affiche la vue Launcher.fxml
+
 public class Launcher extends Application {
-    // Just a counter to create some delay while showing preloader.
     private static final int COUNT_LIMIT = 1;
     private static int stepCount = 1;
     
 
-    // Used to demonstrate step couns.
     public static String STEP() {
         return stepCount++ + ". ";
     }
@@ -30,7 +30,6 @@ public class Launcher extends Application {
 
     @Override
     public void init() throws Exception {
-        // Perform some heavy lifting (i.e. database start, check for application updates, etc. )
         for (int i = 0; i < COUNT_LIMIT; i++) {
             double progress = (100 * i) / COUNT_LIMIT;
             LauncherImpl.notifyPreloader(this, new Preloader.ProgressNotification(progress));

@@ -3,6 +3,8 @@ package com.ece.ing4.bomberman.engine;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+//Classe qui représente un joueur avec son nom
+
 public class Player implements Serializable {
 
 	/**
