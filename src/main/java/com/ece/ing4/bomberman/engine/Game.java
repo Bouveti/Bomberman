@@ -134,8 +134,10 @@ public class Game implements Serializable{
 		int x = b.getX();
 		int y = b.getY();
 		for(int i = 0; i< this.playerList.size();i++) {
-			if (tryPlayerWallBomb(i,x,y)) {
-				this.playerList.get(i).setAlive(false);
+			Player player = this.playerList.get(i);
+			Character charac = player.getCharact();
+			if (tryPlayerBomb(charac,x,y)) {
+				player.setAlive(false);
 			}
 				
 		}
@@ -154,14 +156,55 @@ public class Game implements Serializable{
 	}
 
 
-	public boolean tryPlayerWallBomb(int i, int x, int y){
-		//si il y a un joueur en x y, return true
-		//si il y a un joueur en x-1 return true
-		//...
-		//rayon de 3
+	public boolean tryPlayerBomb(Character charac, int x, int y){
+		boolean res = false;
 		
-		return false;
+		for(int j=0;j<4;j++){
+			switch(j){
+				case 0:res = this.checkInRadius(charac, x, y, 1, 0);
+						break;
+					
+				case 1:res = this.checkInRadius(charac, x, y, -1, 0);
+						break;
+					
+				case 2:res = this.checkInRadius(charac, x, y, 0, 1);
+						break;
+					
+				case 3:res = this.checkInRadius(charac, x, y, 0, -1);
+						break;
+				default: ;
+		
+			}
+			if(res)j = 10;
+		}
+		
+		System.out.println(res);
+		return res;
 	}
-
 	
+	public boolean isInBound(int x, int y){
+		boolean res = false;
+		
+		if((x < this.map.getHeight())&&(x > 0)&&(y < this.map.getHeight())&&(x > 0))res = true;
+		
+		
+		return res;
+	}
+	
+	public boolean checkInRadius(Character charac,int x, int y, int addX, int addY){
+		boolean res = false;
+		
+		for(int i=0;i<4;i++){
+			if(this.isInBound(x+(i*addX), y+(i*addY))){
+				/*System.out.println("Charac in: "+charac.getX()+","+charac.getY());
+				System.out.println("Check in: "+(x+(i*addX)+","+(y+(i*addY))));*/
+				if((charac.getX() == (x+(i*addX)))&&(charac.getY() == y+(i*addY))){
+					res = true;
+				}
+				if(this.map.getCell(x+(i*addX), y+(i*addY))== 'd')this.map.setCell(x+(i*addX), y+(i*addY),' ');
+				else if(this.map.getCell(x+(i*addX), y+(i*addY))== 'w') i = 10;
+			}
+		}
+		return res;
+	}
 }
