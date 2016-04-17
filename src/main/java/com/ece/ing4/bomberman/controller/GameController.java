@@ -98,7 +98,7 @@ public class GameController {
 			int x = theGame.getListBomb().get(b).getX();
 			int y = theGame.getListBomb().get(b).getY();
 			Label bomb = new Label();
-			bomb.setText("Ò");
+			bomb.setText("Q");
 			bomb.setStyle("-fx-alignment: center;-fx-font-size: 18pt;");
 			bomb.setMinHeight(35);
 			bomb.setMinWidth(35);
@@ -132,7 +132,7 @@ public class GameController {
 						alert.setHeaderText(
 								"Vous avez malheureusement perdu dans cette partie de Bomberman en ligne. ");
 						String s = "";
-						s = "La partie est terminée. Merci d'avoir joué, et à bientôt !";
+						s = "La partie est terminee. Merci d'avoir joue, et a� bientot !";
 						alert.setContentText(s);
 						ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
 						
@@ -168,10 +168,10 @@ public class GameController {
 					@Override
 					public void run() {
 						Alert alert = new Alert(AlertType.CONFIRMATION);
-						alert.setHeaderText("Vous avez gagné cette partie de Bomberman en ligne.");
-						alert.setTitle("Gagné !");
+						alert.setHeaderText("Vous avez gagne cette partie de Bomberman en ligne.");
+						alert.setTitle("Gagne !");
 						String s = "";
-						s = "La partie est terminée. Merci d'avoir joué, et à bientôt !";
+						s = "La partie est terminee. Merci d'avoir joue, et a� bientot !";
 
 						alert.setContentText(s);
 						ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
