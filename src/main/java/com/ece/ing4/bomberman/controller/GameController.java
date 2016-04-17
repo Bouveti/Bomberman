@@ -98,7 +98,7 @@ public class GameController {
 			int x = theGame.getListBomb().get(b).getX();
 			int y = theGame.getListBomb().get(b).getY();
 			Label bomb = new Label();
-			bomb.setText("Q");
+			bomb.setText("B");
 			bomb.setStyle("-fx-alignment: center;-fx-font-size: 18pt;");
 			bomb.setMinHeight(35);
 			bomb.setMinWidth(35);
