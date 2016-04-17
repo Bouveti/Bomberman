@@ -126,15 +126,16 @@ public class GameController {
 				
 				@Override
 				public void run() {
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Perdu !");
-					String s ="Vous avez malheureusement perdu dans cette partie de Bomberman en ligne. "
-							+ "Pour rejouer, il faut attendre la fin de la partie et que le créateur clique sur Rejouer.";
-					alert.setContentText(s);
+					alert.setHeaderText("Vous avez malheureusement perdu dans cette partie de Bomberman en ligne. ");
+					String s;
+					if (idJoueur == 0) s = "Pour rejouer cliquez sur Rejouer.";
+					else s = "Pour rejouer, il faut attendre la fin de la partie et que le créateur clique sur Rejouer.";alert.setContentText(s);
 					ButtonType buttonTypeOne = new ButtonType("Rejouer");
 					ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
-
-					alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+					if (idJoueur == 0) alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+					else alert.getButtonTypes().setAll(buttonTypeCancel);
 					
 					Optional<ButtonType> result = alert.showAndWait();
 					if (result.get() == buttonTypeOne){
@@ -156,6 +157,52 @@ public class GameController {
 				
 			});
 		}
+		else if(theGame.getPlayers().get(idJoueur).getAlive() && checkNbAlive()==1) {
+			Platform.runLater(new Runnable() {		
+				@Override
+				public void run() {
+					Alert alert = new Alert(AlertType.CONFIRMATION);
+					alert.setHeaderText("Vous avez gagné cette partie de Bomberman en ligne.");
+					alert.setTitle("Gagné !");
+					String s = "";
+					if (idJoueur == 0) s = "Pour rejouer cliquez sur Rejouer.";
+					else s = "Pour rejouer, il faut attendre la fin de la partie et que le créateur clique sur Rejouer.";
+					
+					alert.setContentText(s);
+					ButtonType buttonTypeOne = new ButtonType("Rejouer");
+					ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
+
+					if (idJoueur == 0) alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+					else alert.getButtonTypes().setAll(buttonTypeCancel);
+					
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == buttonTypeOne){
+						System.out.println("Rejouer");
+					} else {
+						Stage stage = (Stage) gPane.getScene().getWindow();
+						Parent root = null;
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/Launcher.fxml"));
+						try {
+							root = (Parent) fxmlLoader.load();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						Scene scene = new Scene(root);
+						stage.setScene(scene);
+						stage.show();
+					}
+				}
+				
+			});
+		}
+	}
+	
+	public int checkNbAlive() {
+		int nbJoueur = 0;
+		for(int i = 0; i < theGame.getPlayers().size();i++) 
+			if(theGame.getPlayers().get(i).getAlive())nbJoueur++;
+		return nbJoueur;
+		
 	}
 
 	public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
