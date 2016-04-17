@@ -117,12 +117,16 @@ public class ThreadClient implements Runnable {
 	}
 
 	protected void writeToServer(String s) throws IOException {
-		System.out.println("Thread CLIENT : " + s);
 		OutputStream os = socket.getOutputStream();
 		OutputStreamWriter osw = new OutputStreamWriter(os);
 		BufferedWriter bw = new BufferedWriter(osw);
 		bw.write(s);
 		bw.flush();
+		
+		if(s.toString().substring(5, s.toString().length()).compareTo("SERVERQUIT") == 0) {
+			System.out.println("CLOSE SERVER");
+			socket.close();
+		}
 	}
 
 	private Object setListViewObs(Game mainGame) {
