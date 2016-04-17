@@ -1,20 +1,30 @@
 package com.ece.ing4.bomberman.controller;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import com.ece.ing4.bomberman.engine.*;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class GameController {
 
@@ -110,6 +120,41 @@ public class GameController {
 					node.setStyle("-fx-border-color:black;-fx-background-color: yellow;-fx-alignment: center;");
 				node.setText("P" + k);
 			}
+		}
+		if(!theGame.getPlayers().get(idJoueur).getAlive()) {
+			Platform.runLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Perdu !");
+					String s ="Vous avez malheureusement perdu dans cette partie de Bomberman en ligne. "
+							+ "Pour rejouer, il faut attendre la fin de la partie et que le créateur clique sur Rejouer.";
+					alert.setContentText(s);
+					ButtonType buttonTypeOne = new ButtonType("Rejouer");
+					ButtonType buttonTypeCancel = new ButtonType("Quitter", ButtonData.CANCEL_CLOSE);
+
+					alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+					
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == buttonTypeOne){
+						System.out.println("Rejouer");
+					} else {
+						Stage stage = (Stage) gPane.getScene().getWindow();
+						Parent root = null;
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/Launcher.fxml"));
+						try {
+							root = (Parent) fxmlLoader.load();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						Scene scene = new Scene(root);
+						stage.setScene(scene);
+						stage.show();
+					}
+				}
+				
+			});
 		}
 	}
 
